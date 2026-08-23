@@ -154,7 +154,8 @@ img{max-width:100%;display:block;}
 
 .hero-art{position:relative;}
 .hero-art img{
-  width:100%;max-width:380px;margin:0 auto;filter:drop-shadow(0 20px 50px rgba(63,221,238,0.15));
+  width:100%;max-width:380px;height:auto;aspect-ratio:710/800;object-fit:contain;margin:0 auto;
+  filter:drop-shadow(0 20px 50px rgba(63,221,238,0.15));
 }
 .hero-pulse{
   position:absolute;bottom:-4px;left:0;right:0;height:2px;
@@ -308,9 +309,11 @@ section{padding:84px 0;}
   border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink-soft);line-height:1.55;
 }
 .orgs-row{
-  margin-top:28px;display:flex;flex-wrap:wrap;gap:28px;align-items:center;padding-top:28px;border-top:1px solid var(--line);
+  margin-top:28px;padding-top:28px;border-top:1px solid var(--line);
 }
-.orgs-row img{width:130px;height:auto;flex:none;}
+.orgs-title{font-size:17px;margin-bottom:16px;}
+.orgs-logos{display:flex;flex-wrap:wrap;gap:28px;align-items:center;}
+.orgs-logos img{width:130px;height:auto;flex:none;}
 
 /* ---------- FOOTER ---------- */
 footer{background:var(--navy-950);color:rgba(255,255,255,0.6);padding:48px 0 30px;}
@@ -687,9 +690,12 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
             <strong>Acreditación:</strong> solicitada la acreditación de la actividad por la Comisión de Acreditación de la Formación Continuada de las Profesiones Sanitarias del Principado de Asturias.
           </div>
           <div class="orgs-row">
-            <img src="imagenes/logo_consejeria.png" alt="Logo Principado de Asturias, Consejería de Salud">
-            <img src="imagenes/logo_sespa.png" alt="Logo SESPA, Servicio de Salud del Principado de Asturias">
-            <img src="imagenes/logo_aviles.png" alt="Logo Ayuntamiento de Avilés">
+            <h3 class="orgs-title">Organizado por</h3>
+            <div class="orgs-logos">
+              <img src="imagenes/logo_consejeria.png" alt="Logo Principado de Asturias, Consejería de Salud">
+              <img src="imagenes/logo_sespa.png" alt="Logo SESPA, Servicio de Salud del Principado de Asturias">
+              <img src="imagenes/logo_aviles.png" alt="Logo Ayuntamiento de Avilés">
+            </div>
           </div>
         </div>
       </div>
