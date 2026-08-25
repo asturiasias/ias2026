@@ -151,6 +151,10 @@ img{max-width:100%;display:block;}
 .btn-ghost:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.5);}
 .btn-gold{background:var(--gold);color:var(--navy-950);}
 .btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(232,178,60,0.3);}
+.btn-navy{background:var(--navy-700);color:var(--white);}
+.btn-navy:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(23,59,92,0.4);}
+.btn-blue{background:#2563EB;color:var(--white);}
+.btn-blue:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(37,99,235,0.35);}
 
 .hero-art{position:relative;}
 .hero-art img{
@@ -284,6 +288,7 @@ section{padding:84px 0;}
 .p-avatar{
   flex:none;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
   font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:var(--white);
+  object-fit:cover;background-color:var(--paper-alt);
 }
 .p-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--navy-900);line-height:1.3;}
 .p-role{font-size:13px;color:var(--ink-soft);margin-top:4px;line-height:1.45;}
@@ -304,6 +309,9 @@ section{padding:84px 0;}
 .insc-body{padding:26px;}
 .insc-text h3{font-size:17px;margin-bottom:8px;}
 .insc-text p{font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:16px;}
+.contact-note{font-size:13px;color:var(--ink-soft);margin-top:14px;margin-bottom:0;}
+.contact-link{color:var(--navy-700);font-weight:600;text-decoration:none;border-bottom:1px dotted var(--navy-700);}
+.contact-link:hover{color:var(--cyan-dim);border-color:var(--cyan-dim);}
 .accred-box{
   margin-top:18px;padding:14px 16px;background:rgba(232,178,60,0.1);border-left:3px solid var(--gold);
   border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink-soft);line-height:1.55;
@@ -367,7 +375,11 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
       </div>
       <div class="hero-actions">
         <a href="#programa" class="btn btn-primary">Ver el programa</a>
-        <a href="#inscripcion" class="btn btn-ghost">Cómo inscribirme</a>
+        <a href="docs/PROGRAMA_IAS-2026.pdf" class="btn btn-navy" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+          Descargar PDF
+        </a>
+        <a href="#inscripcion" class="btn btn-blue">Cómo inscribirme</a>
       </div>
     </div>
     <div class="hero-art">
@@ -484,7 +496,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
           <div class="t-card">
             <span class="t-tag">Conferencia</span>
             <div class="t-title">De datos a decisiones: cómo la IA está redefiniendo la práctica médica en diabetes</div>
-            <p class="t-mod">Ponente: <a class="speaker-link" data-speaker="josep-franch-nadal">Josep Franch Nadal</a></p>
+            <p class="t-mod">Presenta: <a class="speaker-link" data-speaker="jose-maria-casado-vinas">José María Casado Viñas</a> · Ponente: <a class="speaker-link" data-speaker="josep-franch-nadal">Josep Franch Nadal</a></p>
             <button class="ics-btn" data-ics="Conferencia: De datos a decisiones|2026-09-29T17:15:00|2026-09-29T18:00:00|Auditorio Centro Niemeyer, Avilés">＋ Añadir al calendario</button>
           </div>
         </div>
@@ -683,6 +695,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
               Pulse aquí para inscribirse
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
             </a>
+            <p class="contact-note">¿Tienes dudas? <a class="contact-link" href="https://forms.gle/GTQBt1YeegnpZfUR7" target="_blank" rel="noopener">Contacta con la organización</a></p>
           </div>
         </div>
         <div class="info-card-body" style="padding-top:0;">
@@ -717,15 +730,16 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
           <a href="#presentacion">Presentación</a>
           <a href="#programa">Agenda de los dos días</a>
           <a href="#ponentes">Ponentes</a>
+          <a href="docs/PROGRAMA_IAS-2026.pdf" target="_blank" rel="noopener">Descargar programa (PDF)</a>
         </div>
         <div class="footer-col">
           <h4>Asistencia</h4>
           <a href="#sede">Cómo llegar</a>
           <a href="#inscripcion">Inscripción y acreditación</a>
+          <a href="https://forms.gle/GTQBt1YeegnpZfUR7" target="_blank" rel="noopener">Contacta con la organización</a>
         </div>
         <div class="footer-col">
           <h4>Organiza</h4>
-          <a href="https://forms.gle/GTQBt1YeegnpZfUR7" target="_blank" rel="noopener">Jornada IAS 2026</a>
           <a href="https://www.astursalud.es" target="_blank" rel="noopener">Consejería de Salud · Asturias</a>
           <a href="https://aviles.es" target="_blank" rel="noopener">Ayuntamiento de Avilés</a>
           <a href="https://www.astursalud.es" target="_blank" rel="noopener">SESPA</a>
@@ -787,11 +801,19 @@ function colorFor(person, group){
   return person.institutional ? "#C99424" : "#173B5C";
 }
 
+function avatarFallback(img, name, color){
+  const div = document.createElement("div");
+  div.className = "p-avatar";
+  div.style.background = color;
+  div.textContent = initials(name);
+  img.replaceWith(div);
+}
+
 function renderGrid(containerId, list, group){
   const el = document.getElementById(containerId);
   el.innerHTML = list.map(p => `
     <div class="p-card" id="${p.id}" data-name="${p.name.toLowerCase()}" data-role="${p.role.toLowerCase()}">
-      <div class="p-avatar" style="background:${colorFor(p, group)}">${initials(p.name)}</div>
+      <img class="p-avatar" src="imagenes/ponentes/${p.id}.jpg" alt="" loading="lazy" onerror="avatarFallback(this, '${p.name.replace(/'/g, "\\'")}', '${colorFor(p, group)}')">
       <div>
         <div class="p-name">${p.name}</div>
         <div class="p-role">${p.role}</div>
