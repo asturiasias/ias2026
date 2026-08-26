@@ -291,6 +291,10 @@ section{padding:84px 0;}
   object-fit:cover;background-color:var(--paper-alt);
 }
 .p-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--navy-900);line-height:1.3;}
+.p-linkedin{color:inherit;text-decoration:none;display:inline;border-bottom:1px solid transparent;transition:border-color .15s,color .15s;}
+.p-linkedin:hover{color:var(--cyan-dim);border-color:var(--cyan-dim);}
+.li-icon{vertical-align:-2px;margin-left:4px;opacity:0.55;}
+.p-linkedin:hover .li-icon{opacity:1;}
 .p-role{font-size:13px;color:var(--ink-soft);margin-top:4px;line-height:1.45;}
 .no-results{display:none;color:var(--ink-soft);font-size:14px;padding:30px 0;text-align:center;}
 
@@ -757,36 +761,36 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
 // ---------- data ----------
 const PEOPLE = {
   ponentes: [
-    {id:"amadeo-jesus-wals-zurita", name:"Amadeo Jesús Wals Zurita", role:"Oncólogo radioterápico · Hospital Virgen de Macarena, Sevilla"},
-    {id:"ana-suarez-guerra", name:"Ana Suárez Guerra", role:"Concejala de Mayores y Ciudad Saludable · Ayuntamiento de Avilés", institutional:true},
-    {id:"asuncion-artime-garcia", name:"Asunción Artime García", role:"Gerente Área I-Occidente", institutional:true},
-    {id:"atia-cortes-martinez", name:"Àtia Cortés Martínez", role:"Miembro del Comité de Bioética de España · Centro de Supercomputación de Barcelona"},
-    {id:"hector-calvarro-martin", name:"Héctor Calvarro Martín", role:"Especialista en ventas de soluciones de IA y Azure · Microsoft"},
-    {id:"javier-fernandez-rodriguez", name:"Javier Fernández Rodríguez", role:"Director General de Estrategia Digital e Inteligencia Artificial · Gobierno del Principado de Asturias"},
-    {id:"jose-miguel-vegas-valle", name:"José Miguel Vegas Valle", role:"Consultor Cardiología Intervencionista · Hospital Universitario de Cabueñes"},
-    {id:"josep-franch-nadal", name:"Josep Franch Nadal", role:"Médico de AP ABS Raval Sud, ICS · Investigador clínico IDIAP-Jordi Gol y red CIBERDEM"},
-    {id:"juan-fernando-munoz-montalvo", name:"Juan Fernando Muñoz Montalvo", role:"Secretario General de Salud Digital, Información e Innovación del Sistema Nacional de Salud"},
-    {id:"julio-mayol-martinez", name:"Julio Mayol Martínez", role:"Catedrático de Cirugía · Universidad Complutense de Madrid"},
-    {id:"maria-concepcion-saavedra-rielo", name:"María Concepción Saavedra Rielo", role:"Consejera de Salud · Principado de Asturias", institutional:true},
-    {id:"miguel-angel-prieto-garcia", name:"Miguel Ángel Prieto García", role:"Director General de Salud Pública y Atención a la Salud Mental · Consejería de Salud", institutional:true},
-    {id:"myriam-fernandez-martin", name:"Myriam Fernández Martín", role:"Amazon Web Services (AWS)"},
-    {id:"nahuel-alejandro-costa-cortez", name:"Nahuel Alejandro Costa Cortez", role:"Profesor Ayudante Doctor · Dpto. de Informática, Universidad de Oviedo"},
-    {id:"pedro-jose-espinosa-prados", name:"Pedro José Espinosa Prados", role:"Jefe del Proyecto Cuélebre · SESPA"},
-    {id:"rafael-comendador-romero", name:"Rafael Comendador Romero", role:"Responsable de IA en CGM-SELENE"},
-    {id:"yolanda-lopez-minguez", name:"Yolanda López Mínguez", role:"Subdirectora de Sistemas de Información e Infraestructuras Tecnológicas · SESPA"}
+    {id:"amadeo-jesus-wals-zurita", name:"Amadeo Jesús Wals Zurita", role:"Oncólogo radioterápico · Hospital Virgen de Macarena, Sevilla", linkedin:"https://es.linkedin.com/in/amadeozurita"},
+    {id:"ana-suarez-guerra", name:"Ana Suárez Guerra", role:"Concejala de Mayores y Ciudad Saludable · Ayuntamiento de Avilés", institutional:true, linkedin:"https://www.linkedin.com/in/anamarsu/"},
+    {id:"asuncion-artime-garcia", name:"Asunción Artime García", role:"Gerente Área I-Occidente", institutional:true, linkedin:"https://actualidad.asturias.es/-/cargossespa243"},
+    {id:"atia-cortes-martinez", name:"Àtia Cortés Martínez", role:"Miembro del Comité de Bioética de España · Centro de Supercomputación de Barcelona", linkedin:"https://www.linkedin.com/in/atiacortes/"},
+    {id:"hector-calvarro-martin", name:"Héctor Calvarro Martín", role:"Especialista en ventas de soluciones de IA y Azure · Microsoft", linkedin:"https://es.linkedin.com/in/calvarro"},
+    {id:"javier-fernandez-rodriguez", name:"Javier Fernández Rodríguez", role:"Director General de Estrategia Digital e Inteligencia Artificial · Gobierno del Principado de Asturias", linkedin:"https://www.linkedin.com/in/javierfdezrguez/"},
+    {id:"jose-miguel-vegas-valle", name:"José Miguel Vegas Valle", role:"Consultor Cardiología Intervencionista · Hospital Universitario de Cabueñes", linkedin:"https://es.linkedin.com/in/jose-miguel-vegas-valle-17818937"},
+    {id:"josep-franch-nadal", name:"Josep Franch Nadal", role:"Médico de AP ABS Raval Sud, ICS · Investigador clínico IDIAP-Jordi Gol y red CIBERDEM", linkedin:"https://es.linkedin.com/in/josep-franch-nadal-31358686"},
+    {id:"juan-fernando-munoz-montalvo", name:"Juan Fernando Muñoz Montalvo", role:"Secretario General de Salud Digital, Información e Innovación del Sistema Nacional de Salud", linkedin:"https://www.linkedin.com/in/juan-fernando-mu%C3%B1oz-1618502/"},
+    {id:"julio-mayol-martinez", name:"Julio Mayol Martínez", role:"Catedrático de Cirugía · Universidad Complutense de Madrid", linkedin:"https://es.linkedin.com/in/juliomayol"},
+    {id:"maria-concepcion-saavedra-rielo", name:"María Concepción Saavedra Rielo", role:"Consejera de Salud · Principado de Asturias", institutional:true, linkedin:"https://transparencia.asturias.es/-/gobierno/equipo-gobierno/concepcion-saavedra-rielo"},
+    {id:"miguel-angel-prieto-garcia", name:"Miguel Ángel Prieto García", role:"Director General de Salud Pública y Atención a la Salud Mental · Consejería de Salud", institutional:true, linkedin:"https://www.astursalud.es/noticias/-/noticias/director-general-de-salud-publica-y-atencion-a-la-salud-mental"},
+    {id:"myriam-fernandez-martin", name:"Myriam Fernández Martín", role:"Amazon Web Services (AWS)", linkedin:"https://www.linkedin.com/in/myriam-fernandez-martin/"},
+    {id:"nahuel-alejandro-costa-cortez", name:"Nahuel Alejandro Costa Cortez", role:"Profesor Ayudante Doctor · Dpto. de Informática, Universidad de Oviedo", linkedin:"https://www.linkedin.com/in/nahuel-costa-cortez/"},
+    {id:"pedro-jose-espinosa-prados", name:"Pedro José Espinosa Prados", role:"Jefe del Proyecto Cuélebre · SESPA", linkedin:"https://www.linkedin.com/in/pedro-jose-espinosa-prados-18992165/"},
+    {id:"rafael-comendador-romero", name:"Rafael Comendador Romero", role:"Responsable de IA en CGM-SELENE", linkedin:"https://www.linkedin.com/in/rafaelcomendadorromero/"},
+    {id:"yolanda-lopez-minguez", name:"Yolanda López Mínguez", role:"Subdirectora de Sistemas de Información e Infraestructuras Tecnológicas · SESPA", linkedin:"https://www.linkedin.com/in/yolanda-minguez-77960488/"}
   ],
   comite: [
-    {id:"edgar-lazcano-jakimczuk", name:"Edgar Lazcano Jakimczuk", role:"Médico · Director Gerente Medicler · Presidente de la Agrupación Territorial SEDISA Asturias"},
-    {id:"isolina-riano-galan", name:"Isolina Riaño Galán", role:"Pediatra HUCA · Presidenta Comité Científico de la Sociedad Internacional de Bioética"},
-    {id:"jose-manuel-fernandez-carreira", name:"José Manuel Fernández Carreira", role:"Jefe Servicio de Calidad Área I-Occidente · Proyecto PISPA, DGSP y ASM, Consejería de Salud"},
-    {id:"jose-maria-casado-vinas", name:"José María Casado Viñas", role:"Médico de Familia, C.S. Las Vegas, Área I-Occidente · Prof. Asociado, Universidad de Oviedo"},
-    {id:"juan-jose-martinez-jambrina", name:"Juan José Martínez Jambrina", role:"Psiquiatra · Director AGC Salud Mental, Área I-Occidente"},
-    {id:"lidia-clara-rodriguez-garcia", name:"Lidia Clara Rodríguez García", role:"Directora General de Planificación, Gestión del Conocimiento y Transformación Digital Sanitaria"},
-    {id:"luciano-sanchez-ramos", name:"Luciano Sánchez Ramos", role:"Catedrático de Ciencias de la Computación e Inteligencia Artificial · Universidad de Oviedo"},
-    {id:"maria-jesus-rodriguez-nachon", name:"María Jesús Rodríguez Nachón", role:"Enfermera · Dirección General de Cuidados y Coordinación Socio-sanitaria, Consejería de Salud"},
-    {id:"monica-lopez-ventoso", name:"Mónica López Ventoso", role:"Enfermera · Jefa Unidad de Calidad, Hospital del Oriente"},
-    {id:"pablo-fernandez-muniz", name:"Pablo Fernández Muñiz", role:"Cirujano HUCA · Miembro Comisión Asesora de Bioética del Principado de Asturias"},
-    {id:"pedro-abad-requejo", name:"Pedro Abad Requejo", role:"Medicina Interna · Responsable Funcional de HCE, Servicio de Sistemas de Información, DGPS"}
+    {id:"edgar-lazcano-jakimczuk", name:"Edgar Lazcano Jakimczuk", role:"Médico · Director Gerente Medicler · Presidente de la Agrupación Territorial SEDISA Asturias", linkedin:"https://www.linkedin.com/in/edgar-lazcano-jakimczuk/"},
+    {id:"isolina-riano-galan", name:"Isolina Riaño Galán", role:"Pediatra HUCA · Presidenta Comité Científico de la Sociedad Internacional de Bioética", linkedin:"https://www.linkedin.com/in/isolina-ria%C3%B1o-gal%C3%A1n-86b99a32/"},
+    {id:"jose-manuel-fernandez-carreira", name:"José Manuel Fernández Carreira", role:"Jefe Servicio de Calidad Área I-Occidente · Proyecto PISPA, DGSP y ASM, Consejería de Salud", linkedin:"https://www.linkedin.com/in/jos%C3%A9-manuel-fern%C3%A1ndez-carreira-md-phd-592939a2/"},
+    {id:"jose-maria-casado-vinas", name:"José María Casado Viñas", role:"Médico de Familia, C.S. Las Vegas, Área I-Occidente · Prof. Asociado, Universidad de Oviedo", linkedin:"https://portalinvestigacion.uniovi.es/investigadores/217243/detalle"},
+    {id:"juan-jose-martinez-jambrina", name:"Juan José Martínez Jambrina", role:"Psiquiatra · Director AGC Salud Mental, Área I-Occidente", linkedin:"https://www.linkedin.com/in/juan-jos%C3%A9-mart%C3%ADnez-jambrina-6a537725/"},
+    {id:"lidia-clara-rodriguez-garcia", name:"Lidia Clara Rodríguez García", role:"Directora General de Planificación, Gestión del Conocimiento y Transformación Digital Sanitaria", linkedin:"https://es.linkedin.com/in/lidia-clara-rodr%C3%ADguez-garc%C3%ADa-529a1470"},
+    {id:"luciano-sanchez-ramos", name:"Luciano Sánchez Ramos", role:"Catedrático de Ciencias de la Computación e Inteligencia Artificial · Universidad de Oviedo", linkedin:"https://www.linkedin.com/in/luciano-sanchez-ramos/"},
+    {id:"maria-jesus-rodriguez-nachon", name:"María Jesús Rodríguez Nachón", role:"Enfermera · Dirección General de Cuidados y Coordinación Socio-sanitaria, Consejería de Salud", linkedin:"https://www.linkedin.com/in/mar%C3%ADa-jes%C3%BAs-rodr%C3%ADguez-nach%C3%B3n-197749261/"},
+    {id:"monica-lopez-ventoso", name:"Mónica López Ventoso", role:"Enfermera · Jefa Unidad de Calidad, Hospital del Oriente", linkedin:"https://www.linkedin.com/in/moni-ventoso/"},
+    {id:"pablo-fernandez-muniz", name:"Pablo Fernández Muñiz", role:"Cirujano HUCA · Miembro Comisión Asesora de Bioética del Principado de Asturias", linkedin:"https://www.linkedin.com/in/pifermu/"},
+    {id:"pedro-abad-requejo", name:"Pedro Abad Requejo", role:"Medicina Interna · Responsable Funcional de HCE, Servicio de Sistemas de Información, DGPS", linkedin:"https://www.linkedin.com/in/pedro-abad-requejo-60aa69183/"}
   ]
 };
 
@@ -811,15 +815,25 @@ function avatarFallback(img, name, color){
 
 function renderGrid(containerId, list, group){
   const el = document.getElementById(containerId);
-  el.innerHTML = list.map(p => `
+  el.innerHTML = list.map(p => {
+    let nameHtml = p.name;
+    if(p.linkedin){
+      const isLinkedin = p.linkedin.includes("linkedin.com");
+      const icon = isLinkedin
+        ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" class="li-icon"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 11.02-4.12 2.06 2.06 0 01-.02 4.12zM7.11 20.45H3.56V9h3.55v11.45z"/></svg>`
+        : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" class="li-icon"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>`;
+      nameHtml = `<a href="${p.linkedin}" target="_blank" rel="noopener" class="p-linkedin">${p.name}${icon}</a>`;
+    }
+    return `
     <div class="p-card" id="${p.id}" data-name="${p.name.toLowerCase()}" data-role="${p.role.toLowerCase()}">
       <img class="p-avatar" src="imagenes/ponentes/${p.id}.jpg" alt="" loading="lazy" onerror="avatarFallback(this, '${p.name.replace(/'/g, "\\'")}', '${colorFor(p, group)}')">
       <div>
-        <div class="p-name">${p.name}</div>
+        <div class="p-name">${nameHtml}</div>
         <div class="p-role">${p.role}</div>
       </div>
     </div>
-  `).join("");
+  `;
+  }).join("");
 }
 renderGrid("ponentesGrid", PEOPLE.ponentes, "ponentes");
 renderGrid("comiteGrid", PEOPLE.comite, "comite");
