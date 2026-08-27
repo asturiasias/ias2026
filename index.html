@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud</title>
 <meta name="description" content="Programa interactivo · 29-30 septiembre 2026 · Centro Niemeyer, Avilés · Principado de Asturias / SESPA">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#081321">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Jornada IA Salud">
+<link rel="icon" href="imagenes/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="imagenes/icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="imagenes/icons/apple-touch-icon.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -92,6 +104,36 @@ img{max-width:100%;display:block;}
   transition:transform .2s, box-shadow .2s;
 }
 .nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(63,221,238,0.35);}
+.nav-install-btn{
+  display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--white);
+  border:1px solid rgba(255,255,255,0.3);font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:13px;
+  padding:9px 16px;border-radius:100px;cursor:pointer;white-space:nowrap;transition:all .2s;margin-right:12px;
+}
+.nav-install-btn:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.5);}
+.nav-install-btn[hidden]{display:none;}
+.nav-install-item{display:none;}
+.nav-install-btn-mobile{
+  display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;
+  color:var(--cyan);font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:16px;
+  padding:16px 0;cursor:pointer;text-align:left;
+}
+.install-tip{
+  position:fixed;left:16px;right:16px;bottom:16px;z-index:300;
+  display:flex;justify-content:center;
+}
+.install-tip[hidden]{display:none;}
+.install-tip-inner{
+  position:relative;max-width:420px;background:var(--navy-950);color:var(--white);
+  border-radius:12px;padding:16px 36px 16px 18px;box-shadow:0 12px 32px rgba(0,0,0,0.3);
+  font-size:13.5px;line-height:1.5;
+}
+.install-tip-inner p{margin:0;}
+.tip-share{white-space:nowrap;}
+.install-tip-close{
+  position:absolute;top:10px;right:10px;background:none;border:none;color:rgba(255,255,255,0.6);
+  cursor:pointer;font-size:14px;line-height:1;padding:4px;
+}
+.install-tip-close:hover{color:var(--white);}
 .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;}
 .nav-toggle span{display:block;width:22px;height:2px;background:var(--white);margin:5px 0;border-radius:2px;}
 @media(max-width:860px){
@@ -104,7 +146,9 @@ img{max-width:100%;display:block;}
   .nav-links.open{transform:translateX(0);}
   .nav-links a{padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.08);width:100%;font-size:17px;}
   .nav-cta{display:none;}
+  .nav-install-btn{display:none;}
   .nav-toggle{display:block;}
+  .nav-install-item:not([hidden]){display:block;}
 }
 
 /* ---------- HERO ---------- */
@@ -361,10 +405,27 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
       <li><a href="#ponentes">Ponentes</a></li>
       <li><a href="#sede">Sede</a></li>
       <li><a href="#inscripcion">Inscripción</a></li>
+      <li class="nav-install-item" id="installItemMobile" hidden>
+        <button class="nav-install-btn-mobile" id="installBtnMobile" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+          Instalar app
+        </button>
+      </li>
     </ul>
+    <button class="nav-install-btn" id="installBtn" type="button" hidden>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+      Instalar
+    </button>
     <a href="#inscripcion" class="nav-cta">Inscríbete</a>
   </div>
 </nav>
+
+<div class="install-tip" id="installTip" hidden>
+  <div class="install-tip-inner">
+    <button class="install-tip-close" id="installTipClose" aria-label="Cerrar">✕</button>
+    <p><strong>Instalar en iPhone/iPad:</strong> toca el icono <span class="tip-share">de compartir</span> de Safari y luego "Añadir a pantalla de inicio".</p>
+  </div>
+</div>
 
 <header class="hero" id="top">
   <div class="hero-grid">
@@ -952,6 +1013,70 @@ const spy = new IntersectionObserver((entries)=>{
   });
 }, {rootMargin:"-40% 0px -50% 0px"});
 sections.forEach(s=> s && spy.observe(s));
+
+// ---------- PWA: service worker + instalación ----------
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+
+const installBtn = document.getElementById("installBtn");
+const installBtnMobile = document.getElementById("installBtnMobile");
+const installItemMobile = document.getElementById("installItemMobile");
+const installTip = document.getElementById("installTip");
+const installTipClose = document.getElementById("installTipClose");
+
+let deferredInstallPrompt = null;
+
+function showInstallButtons(){
+  installBtn.hidden = false;
+  installItemMobile.hidden = false;
+}
+function hideInstallButtons(){
+  installBtn.hidden = true;
+  installItemMobile.hidden = true;
+}
+
+// Ya instalada (standalone) -> no mostrar nunca el botón
+const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  if (!isStandalone) showInstallButtons();
+});
+
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = null;
+  hideInstallButtons();
+});
+
+async function triggerInstall(){
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    hideInstallButtons();
+  } else {
+    // iOS Safari u otros navegadores sin prompt nativo: mostrar instrucciones
+    installTip.hidden = false;
+  }
+}
+installBtn.addEventListener("click", triggerInstall);
+installBtnMobile.addEventListener("click", () => {
+  navLinks.classList.remove("open");
+  navToggle.setAttribute("aria-expanded","false");
+  triggerInstall();
+});
+installTipClose.addEventListener("click", () => { installTip.hidden = true; });
+
+// iOS Safari no dispara beforeinstallprompt: mostramos el botón igualmente
+// si detectamos iOS y la web no está ya instalada.
+const isIos = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+if (isIos && !isStandalone) {
+  showInstallButtons();
+}
 </script>
 </body>
 </html>

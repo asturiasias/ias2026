@@ -1,0 +1,42 @@
+{
+  "name": "2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud",
+  "short_name": "Jornada IA Salud",
+  "description": "Programa interactivo de la 2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud · 29-30 septiembre 2026 · Centro Niemeyer, Avilés",
+  "id": "/",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#081321",
+  "theme_color": "#081321",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": ["health", "medical", "education"],
+  "icons": [
+    {
+      "src": "imagenes/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "imagenes/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "imagenes/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "imagenes/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
