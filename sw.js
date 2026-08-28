@@ -1,7 +1,7 @@
 // Service Worker — 2ª Jornada IA y Transformación Digital en Salud
 // Sube este número cada vez que cambies index.html u otros archivos cacheados,
 // para que los usuarios reciban la versión nueva en su próxima visita.
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v2";
 const PRECACHE = `jornada-ia-salud-precache-${CACHE_VERSION}`;
 const RUNTIME = `jornada-ia-salud-runtime-${CACHE_VERSION}`;
 
@@ -17,10 +17,19 @@ const PRECACHE_URLS = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(PRECACHE)
-      .then((cache) => cache.addAll(PRECACHE_URLS))
-      .then(() => self.skipWaiting())
+    caches.open(PRECACHE).then((cache) => cache.addAll(PRECACHE_URLS))
+    // Nota: NO llamamos a self.skipWaiting() aquí a propósito. Así, cuando haya
+    // una versión nueva, se queda "esperando" hasta que la propia página (tras
+    // avisar al usuario con el aviso de actualización) le da permiso explícito
+    // mediante el mensaje SKIP_WAITING. Esto evita que a alguien se le actualice
+    // el contenido a media lectura sin avisar.
   );
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener("activate", (event) => {
