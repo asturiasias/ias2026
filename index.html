@@ -7,11 +7,15 @@
 <meta name="description" content="Programa interactivo · 29-30 septiembre 2026 · Centro Niemeyer, Avilés · Principado de Asturias / SESPA">
 
 <!-- Open Graph / Twitter Card -->
+<link rel="canonical" href="https://asturiasias.github.io/ias2026/">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://asturiasias.github.io/ias2026/">
 <meta property="og:site_name" content="2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud">
 <meta property="og:title" content="2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud">
 <meta property="og:description" content="29-30 septiembre 2026 · Centro Niemeyer, Avilés. Programa interactivo, ponentes y todo lo que necesitas para inscribirte.">
-<meta property="og:image" content="imagenes/og-cover.jpg">
+<meta property="og:image" content="https://asturiasias.github.io/ias2026/imagenes/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://asturiasias.github.io/ias2026/imagenes/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud · 29-30 septiembre 2026 · Centro Niemeyer, Avilés">
@@ -19,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud">
 <meta name="twitter:description" content="29-30 septiembre 2026 · Centro Niemeyer, Avilés. Programa interactivo, ponentes e inscripción.">
-<meta name="twitter:image" content="imagenes/og-cover.jpg">
+<meta name="twitter:image" content="https://asturiasias.github.io/ias2026/imagenes/og-cover.jpg">
 
 <!-- PWA -->
 <link rel="manifest" href="manifest.json">
@@ -423,6 +427,8 @@ section{padding:84px 0;}
   display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:var(--navy-700);
   text-decoration:none;border-bottom:1px solid var(--navy-700);
 }
+.map-embed{border-top:1px solid var(--line);}
+.map-embed iframe{width:100%;height:220px;border:0;display:block;}
 .insc-body{padding:26px;}
 .insc-text h3{font-size:17px;margin-bottom:8px;}
 .insc-text p{font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:16px;}
@@ -441,15 +447,28 @@ section{padding:84px 0;}
 .orgs-logos img{width:130px;height:auto;flex:none;}
 
 /* ---------- FOOTER ---------- */
-.social-section{text-align:center;}
-.social-title{font-size:clamp(1.3rem,2.6vw,1.7rem);color:var(--navy-900);}
-.social-links{display:flex;justify-content:center;gap:20px;margin-top:28px;flex-wrap:wrap;}
-.social-link{
-  display:inline-flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--line);
-  color:var(--navy-900);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;
-  padding:14px 28px;border-radius:100px;transition:all .2s;
+.social-grid{
+  margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;
 }
-.social-link:hover{border-color:var(--cyan-dim);color:var(--cyan-dim);transform:translateY(-2px);box-shadow:0 8px 20px rgba(15,42,68,0.08);}
+.social-card{
+  display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid var(--line);
+  border-radius:var(--radius);padding:20px;text-decoration:none;text-align:left;cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;width:100%;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.social-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(15,42,68,0.08);border-color:var(--cyan-dim);}
+.social-icon{
+  flex:none;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+}
+.social-icon-instagram{background:radial-gradient(circle at 30% 110%, #ffdb73 0%, #fd6a3a 30%, #e42a86 62%, #7d3ac1 100%);}
+.social-icon-x{background:var(--navy-950);}
+.social-icon-share{background:var(--cyan-dim);}
+.social-text{flex:1;min-width:0;}
+.social-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15.5px;color:var(--navy-900);}
+.social-handle{font-size:13px;color:var(--ink-soft);margin-top:2px;}
+.social-arrow{flex:none;color:var(--ink-soft);opacity:0.5;transition:opacity .2s, transform .2s, color .2s;}
+.social-card:hover .social-arrow{opacity:1;transform:translate(2px,-2px);color:var(--cyan-dim);}
+.social-card-share.is-shared .social-icon-share{background:var(--gold);}
 
 footer{background:var(--navy-950);color:rgba(255,255,255,0.6);padding:48px 0 30px;}
 .footer-grid{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,0.1);}
@@ -479,7 +498,8 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
   "endDate": "2026-09-30T14:00:00+02:00",
   "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
   "eventStatus": "https://schema.org/EventScheduled",
-  "image": ["imagenes/og-cover.jpg"],
+  "image": ["https://asturiasias.github.io/ias2026/imagenes/og-cover.jpg"],
+  "url": "https://asturiasias.github.io/ias2026/",
   "location": {
     "@type": "Place",
     "name": "Auditorio Centro Internacional Oscar Niemeyer",
@@ -922,6 +942,12 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
           </a>
         </div>
+        <div class="map-embed">
+          <iframe
+            src="https://www.google.com/maps?q=43.556884,-5.916288&z=16&output=embed"
+            title="Mapa de ubicación del Auditorio Centro Internacional Oscar Niemeyer, Avilés"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
       </div>
 
       <div class="info-card" id="inscripcion">
@@ -954,21 +980,48 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
   </div>
 </section>
 
-<section id="redes" class="alt-bg social-section">
+<section id="redes" class="alt-bg">
   <div class="wrap">
-    <h2 class="social-title">Sigue el congreso en las redes sociales</h2>
-    <div class="social-links">
-      <a href="https://www.instagram.com/astur_iasalud/" target="_blank" rel="noopener" class="social-link">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
-        Instagram
+    <div class="section-head">
+      <span class="section-num">Comunidad</span>
+      <h2>Sigue el congreso en las redes sociales</h2>
+      <p>No te pierdas las novedades y ayúdanos a difundir la jornada compartiéndola con quien pueda interesarle.</p>
+    </div>
+    <div class="social-grid">
+      <a href="https://www.instagram.com/astur_iasalud/" target="_blank" rel="noopener" class="social-card">
+        <div class="social-icon social-icon-instagram">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.15" fill="white" stroke="none"/></svg>
+        </div>
+        <div class="social-text">
+          <div class="social-name">Instagram</div>
+          <div class="social-handle">@astur_iasalud</div>
+        </div>
+        <svg class="social-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
       </a>
-      <a href="https://x.com/IA_ASTURIAS" target="_blank" rel="noopener" class="social-link">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.6L18.9 2zm-1.2 18h1.7L7.4 3.9H5.6L17.7 20z"/></svg>
-        X (Twitter)
+      <a href="https://x.com/IA_ASTURIAS" target="_blank" rel="noopener" class="social-card">
+        <div class="social-icon social-icon-x">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.6L18.9 2zm-1.2 18h1.7L7.4 3.9H5.6L17.7 20z"/></svg>
+        </div>
+        <div class="social-text">
+          <div class="social-name">X (Twitter)</div>
+          <div class="social-handle">@IA_ASTURIAS</div>
+        </div>
+        <svg class="social-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
       </a>
+      <button class="social-card social-card-share" id="shareEventBtn" type="button">
+        <div class="social-icon social-icon-share">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-3.9M8.6 13.5l6.8 3.9"/></svg>
+        </div>
+        <div class="social-text">
+          <div class="social-name">Compartir la jornada</div>
+          <div class="social-handle" id="shareStatusText">Envía el enlace a quien te interese</div>
+        </div>
+        <svg class="social-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+      </button>
     </div>
   </div>
 </section>
+
 
 </main>
 
@@ -1178,6 +1231,38 @@ const spy = new IntersectionObserver((entries)=>{
   });
 }, {rootMargin:"-40% 0px -50% 0px"});
 sections.forEach(s=> s && spy.observe(s));
+
+// ---------- Compartir la jornada ----------
+(function(){
+  const btn = document.getElementById("shareEventBtn");
+  const statusText = document.getElementById("shareStatusText");
+  const defaultText = statusText.textContent;
+  const shareData = {
+    title: "2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud",
+    text: "29-30 septiembre 2026 · Centro Niemeyer, Avilés",
+    url: "https://asturiasias.github.io/ias2026/"
+  };
+
+  btn.addEventListener("click", async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) { /* el usuario canceló, no hacemos nada */ }
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(shareData.url);
+      btn.classList.add("is-shared");
+      statusText.textContent = "Enlace copiado ✓";
+      setTimeout(() => {
+        btn.classList.remove("is-shared");
+        statusText.textContent = defaultText;
+      }, 2200);
+    } catch (err) {
+      statusText.textContent = shareData.url;
+    }
+  });
+})();
 
 // ---------- Cuenta regresiva ----------
 (function(){

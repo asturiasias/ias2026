@@ -1,16 +1,20 @@
 // Service Worker — 2ª Jornada IA y Transformación Digital en Salud
 // Sube este número cada vez que cambies index.html u otros archivos cacheados,
 // para que los usuarios reciban la versión nueva en su próxima visita.
-const CACHE_VERSION = "v2";
+const CACHE_VERSION = "v3";
 const PRECACHE = `jornada-ia-salud-precache-${CACHE_VERSION}`;
 const RUNTIME = `jornada-ia-salud-runtime-${CACHE_VERSION}`;
 
-// Solo se precachean los archivos que sabemos que existen siempre.
-// Todo lo demás (fotos, PDF, fuentes) se cachea "sobre la marcha" la primera
-// vez que se pide, así la instalación nunca falla por un archivo que falte.
+// Archivos que garantizamos disponibles offline desde la primera visita,
+// sin depender de que el usuario haya navegado antes por esa sección.
+// El programa (agenda Día 1/Día 2) va embebido en index.html, así que con
+// cachearlo a él ya se cubre. Lo demás (fotos de ponentes, PDF del programa,
+// fuentes) se cachea "sobre la marcha" la primera vez que se piden, así la
+// instalación nunca falla por un archivo puntual que falte.
 const PRECACHE_URLS = [
   "index.html",
   "manifest.json",
+  "data/ponentes.json",
   "imagenes/icons/icon-192.png",
   "imagenes/icons/icon-512.png"
 ];

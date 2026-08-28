@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asturiasias.github.io/ias2026/sitemap.xml
