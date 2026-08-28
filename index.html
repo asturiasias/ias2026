@@ -6,6 +6,21 @@
 <title>2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud</title>
 <meta name="description" content="Programa interactivo · 29-30 septiembre 2026 · Centro Niemeyer, Avilés · Principado de Asturias / SESPA">
 
+<!-- Open Graph / Twitter Card -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud">
+<meta property="og:title" content="2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud">
+<meta property="og:description" content="29-30 septiembre 2026 · Centro Niemeyer, Avilés. Programa interactivo, ponentes y todo lo que necesitas para inscribirte.">
+<meta property="og:image" content="imagenes/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud · 29-30 septiembre 2026 · Centro Niemeyer, Avilés">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud">
+<meta name="twitter:description" content="29-30 septiembre 2026 · Centro Niemeyer, Avilés. Programa interactivo, ponentes e inscripción.">
+<meta name="twitter:image" content="imagenes/og-cover.jpg">
+
 <!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#081321">
@@ -134,6 +149,24 @@ img{max-width:100%;display:block;}
   cursor:pointer;font-size:14px;line-height:1;padding:4px;
 }
 .install-tip-close:hover{color:var(--white);}
+
+.update-tip{
+  background:var(--cyan);color:var(--navy-950);
+}
+.update-tip[hidden]{display:none;}
+.update-tip-inner{
+  max-width:var(--maxw);margin:0 auto;padding:11px 20px;
+  display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;
+}
+.update-tip-text{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;}
+.update-tip-actions{display:flex;align-items:center;gap:10px;}
+.update-tip-btn{
+  background:var(--navy-950);color:var(--white);border:none;font-family:'Space Grotesk',sans-serif;
+  font-weight:600;font-size:13px;padding:7px 16px;border-radius:100px;cursor:pointer;transition:opacity .15s;
+}
+.update-tip-btn:hover{opacity:0.85;}
+.update-tip-close{background:none;border:none;color:var(--navy-950);opacity:0.6;cursor:pointer;font-size:14px;padding:4px;}
+.update-tip-close:hover{opacity:1;}
 .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;}
 .nav-toggle span{display:block;width:22px;height:2px;background:var(--white);margin:5px 0;border-radius:2px;}
 @media(max-width:860px){
@@ -176,6 +209,30 @@ img{max-width:100%;display:block;}
 .hero-sub{
   margin-top:20px;color:rgba(255,255,255,0.68);font-size:17px;max-width:44ch;line-height:1.6;
 }
+.countdown{
+  margin-top:28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+}
+.countdown-caption{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--gold);white-space:nowrap;
+}
+.countdown-stats{display:flex;gap:10px;}
+.countdown-item{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:10px;
+  padding:8px 14px;min-width:58px;
+}
+.countdown-num{
+  font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:22px;color:var(--white);line-height:1.1;
+  font-variant-numeric:tabular-nums;
+}
+.countdown-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;}
+.countdown.is-live .countdown-caption{color:var(--cyan);}
+.countdown-message{
+  font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--white);
+  background:rgba(63,221,238,0.12);border:1px solid rgba(63,221,238,0.3);border-radius:10px;padding:9px 16px;
+}
+
 .hero-meta{
   display:flex;flex-wrap:wrap;gap:14px 28px;margin-top:30px;
 }
@@ -411,9 +468,62 @@ footer{background:var(--navy-950);color:rgba(255,255,255,0.6);padding:48px 0 30p
 /* focus visibility */
 a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var(--cyan-dim);outline-offset:2px;}
 </style>
+<!-- Datos estructurados para buscadores (Google, etc.) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "2ª Jornada de Inteligencia Artificial y Transformación Digital en Salud",
+  "description": "Espacio de encuentro y reflexión orientado a analizar cómo la transformación digital y la inteligencia artificial están contribuyendo a la evolución del sistema sanitario, con especial impacto en la práctica clínica.",
+  "startDate": "2026-09-29T16:00:00+02:00",
+  "endDate": "2026-09-30T14:00:00+02:00",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "image": ["imagenes/og-cover.jpg"],
+  "location": {
+    "@type": "Place",
+    "name": "Auditorio Centro Internacional Oscar Niemeyer",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. del Zinc, s/n",
+      "addressLocality": "Avilés",
+      "postalCode": "33490",
+      "addressRegion": "Asturias",
+      "addressCountry": "ES"
+    }
+  },
+  "organizer": [
+    {"@type": "Organization", "name": "Consejería de Salud del Principado de Asturias", "url": "https://www.astursalud.es"},
+    {"@type": "Organization", "name": "SESPA", "url": "https://www.astursalud.es"},
+    {"@type": "Organization", "name": "Ayuntamiento de Avilés", "url": "https://aviles.es"}
+  ],
+  "offers": {
+    "@type": "Offer",
+    "url": "https://forms.cloud.microsoft/e/WQRVzFrnzB",
+    "price": "0",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock"
+  },
+  "inLanguage": "es"
+}
+</script>
+
 </head>
 <body>
 <a href="#programa" class="skip-link">Saltar al contenido</a>
+
+<div class="update-tip" id="updateTip" hidden>
+  <div class="update-tip-inner">
+    <span class="update-tip-text">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 11-2.64-6.36M21 3v6h-6"/></svg>
+      Hay una versión nueva de la web
+    </span>
+    <div class="update-tip-actions">
+      <button class="update-tip-btn" id="updateTipBtn" type="button">Actualizar</button>
+      <button class="update-tip-close" id="updateTipClose" aria-label="Cerrar">✕</button>
+    </div>
+  </div>
+</div>
 
 <nav class="nav" id="siteNav">
   <div class="nav-inner">
@@ -455,6 +565,16 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
       <span class="eyebrow">29–30 septiembre 2026 · Centro Niemeyer, Avilés</span>
       <h1>2ª Jornada<br>Inteligencia Artificial <em>y</em><br>Transformación Digital<br>en Salud</h1>
       <p class="hero-sub">Un espacio de encuentro entre clínicos, ingenieros, investigadores y gestores para analizar cómo la IA está transformando la práctica asistencial en el Principado de Asturias.</p>
+
+      <div class="countdown" id="countdown" role="timer" aria-live="off">
+        <span class="countdown-caption" id="countdownCaption">Empieza en</span>
+        <div class="countdown-stats" id="countdownStats">
+          <div class="countdown-item"><span class="countdown-num" id="cdDays">–</span><span class="countdown-label">días</span></div>
+          <div class="countdown-item"><span class="countdown-num" id="cdHours">–</span><span class="countdown-label">horas</span></div>
+          <div class="countdown-item"><span class="countdown-num" id="cdMins">–</span><span class="countdown-label">min</span></div>
+        </div>
+      </div>
+
       <div class="hero-meta">
         <div class="hero-meta-item"><span class="label">Organiza</span><span class="value">Consejería de Salud · Ayto. de Avilés · SESPA</span></div>
         <div class="hero-meta-item"><span class="label">Lugar</span><span class="value">Auditorio Centro Niemeyer</span></div>
@@ -573,7 +693,12 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
               <li>IA en medicina clínica: más allá de ChatGPT — <a class="speaker-link" data-speaker="jose-miguel-vegas-valle">José Miguel Vegas Valle</a></li>
               <li>Modelos de lenguaje pequeños en local: qué se pierde y qué se gana — <a class="speaker-link" data-speaker="luciano-sanchez-ramos">Luciano Sánchez Ramos</a></li>
             </ul>
-            <button class="ics-btn" data-ics="Panel de demostraciones|2026-09-29T16:30:00|2026-09-29T17:15:00|Auditorio Centro Niemeyer, Avilés">＋ Añadir al calendario</button>
+            <div class="t-actions"><button class="ics-btn" data-ics="Panel de demostraciones|2026-09-29T16:30:00|2026-09-29T17:15:00|Auditorio Centro Niemeyer, Avilés">＋ Añadir al calendario</button>
+            <a class="question-btn" href="https://forms.gle/XCi48XMM1S6Cz5MJ8" target="_blank" rel="noopener">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 9a3 3 0 116 0c0 2-3 2.5-3 5"/><circle cx="12" cy="17.5" r="0.6" fill="currentColor"/><circle cx="12" cy="12" r="9.5"/></svg>
+              Enviar preguntas
+            </a>
+            </div>
           </div>
         </div>
 
@@ -584,7 +709,12 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
             <span class="t-tag">Conferencia</span>
             <div class="t-title">De datos a decisiones: cómo la IA está redefiniendo la práctica médica en diabetes</div>
             <p class="t-mod">Presenta: <a class="speaker-link" data-speaker="jose-maria-casado-vinas">José María Casado Viñas</a> · Ponente: <a class="speaker-link" data-speaker="josep-franch-nadal">Josep Franch Nadal</a></p>
-            <button class="ics-btn" data-ics="Conferencia: De datos a decisiones|2026-09-29T17:15:00|2026-09-29T18:00:00|Auditorio Centro Niemeyer, Avilés">＋ Añadir al calendario</button>
+            <div class="t-actions"><button class="ics-btn" data-ics="Conferencia: De datos a decisiones|2026-09-29T17:15:00|2026-09-29T18:00:00|Auditorio Centro Niemeyer, Avilés">＋ Añadir al calendario</button>
+            <a class="question-btn" href="https://forms.gle/XCi48XMM1S6Cz5MJ8" target="_blank" rel="noopener">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 9a3 3 0 116 0c0 2-3 2.5-3 5"/><circle cx="12" cy="17.5" r="0.6" fill="currentColor"/><circle cx="12" cy="12" r="9.5"/></svg>
+              Enviar preguntas
+            </a>
+            </div>
           </div>
         </div>
 
@@ -617,7 +747,12 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
             <span class="t-tag">Conferencia inaugural</span>
             <div class="t-title">Liderando la Transformación Digital en el SNS</div>
             <p class="t-mod">Presenta: <a class="speaker-link" data-speaker="pablo-fernandez-muniz">Pablo Ignacio Fernández Muñiz</a> · Ponente: <a class="speaker-link" data-speaker="juan-fernando-munoz-montalvo">Juan Fernando Muñoz Montalvo</a></p>
-            <button class="ics-btn" data-ics="Conferencia inaugural: Liderando la Transformación Digital en el SNS|2026-09-29T18:45:00|2026-09-29T20:00:00|Auditorio Centro Niemeyer, Avilés">＋ Añadir al calendario</button>
+            <div class="t-actions"><button class="ics-btn" data-ics="Conferencia inaugural: Liderando la Transformación Digital en el SNS|2026-09-29T18:45:00|2026-09-29T20:00:00|Auditorio Centro Niemeyer, Avilés">＋ Añadir al calendario</button>
+            <a class="question-btn" href="https://forms.gle/XCi48XMM1S6Cz5MJ8" target="_blank" rel="noopener">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 9a3 3 0 116 0c0 2-3 2.5-3 5"/><circle cx="12" cy="17.5" r="0.6" fill="currentColor"/><circle cx="12" cy="12" r="9.5"/></svg>
+              Enviar preguntas
+            </a>
+            </div>
           </div>
         </div>
 
@@ -874,41 +1009,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
 
 <script>
 // ---------- data ----------
-const PEOPLE = {
-  ponentes: [
-    {id:"amadeo-jesus-wals-zurita", name:"Amadeo Jesús Wals Zurita", role:"Oncólogo radioterápico · Hospital Virgen de Macarena, Sevilla", linkedin:"https://es.linkedin.com/in/amadeozurita"},
-    {id:"ana-suarez-guerra", name:"Ana Suárez Guerra", role:"Concejala de Mayores y Ciudad Saludable · Ayuntamiento de Avilés", institutional:true, linkedin:"https://www.linkedin.com/in/anamarsu/"},
-    {id:"asuncion-artime-garcia", name:"Asunción Artime García", role:"Gerente Área I-Occidente", institutional:true, linkedin:"https://actualidad.asturias.es/-/cargossespa243"},
-    {id:"atia-cortes-martinez", name:"Àtia Cortés Martínez", role:"Miembro del Comité de Bioética de España · Centro de Supercomputación de Barcelona", linkedin:"https://www.linkedin.com/in/atiacortes/"},
-    {id:"hector-calvarro-martin", name:"Héctor Calvarro Martín", role:"Especialista en ventas de soluciones de IA y Azure · Microsoft", linkedin:"https://es.linkedin.com/in/calvarro"},
-    {id:"javier-fernandez-rodriguez", name:"Javier Fernández Rodríguez", role:"Director General de Estrategia Digital e Inteligencia Artificial · Gobierno del Principado de Asturias", linkedin:"https://www.linkedin.com/in/javierfdezrguez/"},
-    {id:"jose-miguel-vegas-valle", name:"José Miguel Vegas Valle", role:"Consultor Cardiología Intervencionista · Hospital Universitario de Cabueñes", linkedin:"https://es.linkedin.com/in/jose-miguel-vegas-valle-17818937"},
-    {id:"josep-franch-nadal", name:"Josep Franch Nadal", role:"Médico de AP ABS Raval Sud, ICS · Investigador clínico IDIAP-Jordi Gol y red CIBERDEM", linkedin:"https://es.linkedin.com/in/josep-franch-nadal-31358686"},
-    {id:"juan-fernando-munoz-montalvo", name:"Juan Fernando Muñoz Montalvo", role:"Secretario General de Salud Digital, Información e Innovación del Sistema Nacional de Salud", linkedin:"https://www.linkedin.com/in/juan-fernando-mu%C3%B1oz-1618502/"},
-    {id:"julio-mayol-martinez", name:"Julio Mayol Martínez", role:"Catedrático de Cirugía · Universidad Complutense de Madrid", linkedin:"https://es.linkedin.com/in/juliomayol"},
-    {id:"maria-concepcion-saavedra-rielo", name:"María Concepción Saavedra Rielo", role:"Consejera de Salud · Principado de Asturias", institutional:true, linkedin:"https://transparencia.asturias.es/-/gobierno/equipo-gobierno/concepcion-saavedra-rielo"},
-    {id:"miguel-angel-prieto-garcia", name:"Miguel Ángel Prieto García", role:"Director General de Salud Pública y Atención a la Salud Mental · Consejería de Salud", institutional:true, linkedin:"https://www.astursalud.es/noticias/-/noticias/director-general-de-salud-publica-y-atencion-a-la-salud-mental"},
-    {id:"myriam-fernandez-martin", name:"Myriam Fernández Martín", role:"Amazon Web Services (AWS)", linkedin:"https://www.linkedin.com/in/myriam-fernandez-martin/"},
-    {id:"nahuel-alejandro-costa-cortez", name:"Nahuel Alejandro Costa Cortez", role:"Profesor Ayudante Doctor · Dpto. de Informática, Universidad de Oviedo", linkedin:"https://www.linkedin.com/in/nahuel-costa-cortez/"},
-    {id:"pedro-jose-espinosa-prados", name:"Pedro José Espinosa Prados", role:"Jefe del Proyecto Cuélebre · SESPA", linkedin:"https://www.linkedin.com/in/pedro-jose-espinosa-prados-18992165/"},
-    {id:"rafael-comendador-romero", name:"Rafael Comendador Romero", role:"Responsable de IA en CGM-SELENE", linkedin:"https://www.linkedin.com/in/rafaelcomendadorromero/"},
-    {id:"rocio-allande-diaz", name:"Rocío Allande Díaz", role:"Directora General de Cuidados y Coordinación Sociosanitaria", institutional:true, linkedin:"https://www.astursalud.es/noticias/-/noticias/directora-general-de-cuidados-y-coordinacion-sociosanitaria"},
-    {id:"yolanda-lopez-minguez", name:"Yolanda López Mínguez", role:"Subdirectora de Sistemas de Información e Infraestructuras Tecnológicas · SESPA", linkedin:"https://www.linkedin.com/in/yolanda-minguez-77960488/"}
-  ],
-  comite: [
-    {id:"edgar-lazcano-jakimczuk", name:"Edgar Lazcano Jakimczuk", role:"Médico · Director Gerente Medicler · Presidente de la Agrupación Territorial SEDISA Asturias", linkedin:"https://www.linkedin.com/in/edgar-lazcano-jakimczuk/"},
-    {id:"isolina-riano-galan", name:"Isolina Riaño Galán", role:"Pediatra HUCA · Presidenta Comité Científico de la Sociedad Internacional de Bioética", linkedin:"https://www.linkedin.com/in/isolina-ria%C3%B1o-gal%C3%A1n-86b99a32/"},
-    {id:"jose-manuel-fernandez-carreira", name:"José Manuel Fernández Carreira", role:"Jefe Servicio de Calidad Área I-Occidente · Proyecto PISPA, DGSP y ASM, Consejería de Salud", linkedin:"https://www.linkedin.com/in/jos%C3%A9-manuel-fern%C3%A1ndez-carreira-md-phd-592939a2/"},
-    {id:"jose-maria-casado-vinas", name:"José María Casado Viñas", role:"Médico de Familia, C.S. Las Vegas, Área I-Occidente · Prof. Asociado, Universidad de Oviedo", linkedin:"https://portalinvestigacion.uniovi.es/investigadores/217243/detalle"},
-    {id:"juan-jose-martinez-jambrina", name:"Juan José Martínez Jambrina", role:"Psiquiatra · Director AGC Salud Mental, Área I-Occidente", linkedin:"https://www.linkedin.com/in/juan-jos%C3%A9-mart%C3%ADnez-jambrina-6a537725/"},
-    {id:"lidia-clara-rodriguez-garcia", name:"Lidia Clara Rodríguez García", role:"Directora General de Planificación, Gestión del Conocimiento y Transformación Digital Sanitaria", linkedin:"https://es.linkedin.com/in/lidia-clara-rodr%C3%ADguez-garc%C3%ADa-529a1470"},
-    {id:"luciano-sanchez-ramos", name:"Luciano Sánchez Ramos", role:"Catedrático de Ciencias de la Computación e Inteligencia Artificial · Universidad de Oviedo", linkedin:"https://www.linkedin.com/in/luciano-sanchez-ramos/"},
-    {id:"maria-jesus-rodriguez-nachon", name:"María Jesús Rodríguez Nachón", role:"Enfermera · Dirección General de Cuidados y Coordinación Socio-sanitaria, Consejería de Salud", linkedin:"https://www.linkedin.com/in/mar%C3%ADa-jes%C3%BAs-rodr%C3%ADguez-nach%C3%B3n-197749261/"},
-    {id:"monica-lopez-ventoso", name:"Mónica López Ventoso", role:"Enfermera · Jefa Unidad de Calidad, Hospital del Oriente", linkedin:"https://www.linkedin.com/in/moni-ventoso/"},
-    {id:"pablo-fernandez-muniz", name:"Pablo Ignacio Fernández Muñiz", role:"Cirujano HUCA · Miembro Comisión Asesora de Bioética del Principado de Asturias", linkedin:"https://www.linkedin.com/in/pifermu/"},
-    {id:"pedro-abad-requejo", name:"Pedro Abad Requejo", role:"Medicina Interna · Responsable Funcional de HCE, Servicio de Sistemas de Información, DGPS", linkedin:"https://www.linkedin.com/in/pedro-abad-requejo-60aa69183/"}
-  ]
-};
+let PEOPLE = {ponentes: [], comite: []};
 
 function initials(name){
   const parts = name.split(" ").filter(w => w.length>1 || /[A-ZÀ-Ý]/.test(w));
@@ -951,8 +1052,17 @@ function renderGrid(containerId, list, group){
   `;
   }).join("");
 }
-renderGrid("ponentesGrid", PEOPLE.ponentes, "ponentes");
-renderGrid("comiteGrid", PEOPLE.comite, "comite");
+async function loadPeople(){
+  try {
+    const res = await fetch("data/ponentes.json");
+    PEOPLE = await res.json();
+  } catch(err) {
+    console.error("No se pudo cargar data/ponentes.json", err);
+  }
+  renderGrid("ponentesGrid", PEOPLE.ponentes, "ponentes");
+  renderGrid("comiteGrid", PEOPLE.comite, "comite");
+}
+loadPeople();
 
 // ---------- day tabs ----------
 document.querySelectorAll(".day-tab").forEach(btn=>{
@@ -1069,12 +1179,92 @@ const spy = new IntersectionObserver((entries)=>{
 }, {rootMargin:"-40% 0px -50% 0px"});
 sections.forEach(s=> s && spy.observe(s));
 
+// ---------- Cuenta regresiva ----------
+(function(){
+  const EVENT_START = new Date("2026-09-29T16:00:00+02:00");
+  const EVENT_END = new Date("2026-09-30T14:00:00+02:00");
+  const el = document.getElementById("countdown");
+  const caption = document.getElementById("countdownCaption");
+  const stats = document.getElementById("countdownStats");
+  const dEl = document.getElementById("cdDays");
+  const hEl = document.getElementById("cdHours");
+  const mEl = document.getElementById("cdMins");
+
+  function render(){
+    const now = new Date();
+    if (now >= EVENT_END) {
+      el.classList.remove("is-live");
+      caption.textContent = "";
+      stats.innerHTML = '<span class="countdown-message">Gracias por participar en la Jornada 🙌</span>';
+      return false; // no hace falta seguir actualizando
+    }
+    if (now >= EVENT_START) {
+      el.classList.add("is-live");
+      caption.textContent = "";
+      stats.innerHTML = '<span class="countdown-message">🔴 La Jornada está en marcha</span>';
+      return true;
+    }
+    const diff = EVENT_START - now;
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    dEl.textContent = String(days).padStart(2, "0");
+    hEl.textContent = String(hours).padStart(2, "0");
+    mEl.textContent = String(mins).padStart(2, "0");
+    return true;
+  }
+
+  if (render()) {
+    const timer = setInterval(() => { if (!render()) clearInterval(timer); }, 1000);
+  }
+})();
+
 // ---------- PWA: service worker + instalación ----------
+const updateTip = document.getElementById("updateTip");
+const updateTipBtn = document.getElementById("updateTipBtn");
+const updateTipClose = document.getElementById("updateTipClose");
+let waitingWorker = null;
+
+function showUpdateTip(worker){
+  waitingWorker = worker;
+  updateTip.hidden = false;
+}
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
+    navigator.serviceWorker.register("sw.js").then((reg) => {
+      // Ya había una versión nueva esperando de una visita anterior
+      if (reg.waiting) showUpdateTip(reg.waiting);
+
+      reg.addEventListener("updatefound", () => {
+        const newWorker = reg.installing;
+        if (!newWorker) return;
+        newWorker.addEventListener("statechange", () => {
+          // "installed" + ya había un controller = no es la primera instalación,
+          // es una actualización de una versión ya instalada.
+          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+            showUpdateTip(newWorker);
+          }
+        });
+      });
+    }).catch(() => {});
+
+    // Cuando el nuevo SW toma el control, recargamos una sola vez.
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (refreshing) return;
+      refreshing = true;
+      window.location.reload();
+    });
   });
 }
+
+updateTipBtn.addEventListener("click", () => {
+  if (waitingWorker) waitingWorker.postMessage("SKIP_WAITING");
+  updateTipBtn.textContent = "Actualizando…";
+  updateTipBtn.disabled = true;
+});
+updateTipClose.addEventListener("click", () => { updateTip.hidden = true; });
 
 const installBtn = document.getElementById("installBtn");
 const installBtnMobile = document.getElementById("installBtnMobile");
