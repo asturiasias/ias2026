@@ -432,13 +432,18 @@ section{padding:84px 0;}
 .insc-body{padding:26px;}
 .insc-text h3{font-size:17px;margin-bottom:8px;}
 .insc-text p{font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:16px;}
-.contact-note{font-size:13px;color:var(--ink-soft);margin-top:14px;margin-bottom:0;}
-.contact-link{color:var(--navy-700);font-weight:600;text-decoration:none;border-bottom:1px dotted var(--navy-700);}
-.contact-link:hover{color:var(--cyan-dim);border-color:var(--cyan-dim);}
+
 .accred-box{
   margin-top:18px;padding:14px 16px;background:rgba(232,178,60,0.1);border-left:3px solid var(--gold);
   border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink-soft);line-height:1.55;
 }
+.contact-row{
+  margin-top:28px;padding-top:28px;border-top:1px solid var(--line);
+}
+.contact-title{font-size:17px;margin-bottom:16px;}
+.contact-actions{display:flex;flex-wrap:wrap;gap:12px;}
+.btn-icon-img{width:20px;height:20px;border-radius:50%;object-fit:cover;flex:none;}
+
 .orgs-row{
   margin-top:28px;padding-top:28px;border-top:1px solid var(--line);
 }
@@ -607,6 +612,10 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
           Descargar PDF
         </a>
         <a href="#inscripcion" class="btn btn-blue">Cómo inscribirme</a>
+        <a href="https://gemini.google.com/gem/18coUnyDkmJehRgVYXGqIOJoCCYZK8eTn?usp=sharing" class="btn btn-ghost" target="_blank" rel="noopener">
+          <img src="imagenes/ponentes/SaludIA.jpg" alt="" class="btn-icon-img">
+          Pregunta a SaludIA
+        </a>
       </div>
     </div>
     <div class="hero-art">
@@ -959,12 +968,24 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
               Pulse aquí para inscribirse
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
             </a>
-            <p class="contact-note">¿Tienes dudas? <a class="contact-link" href="https://forms.gle/GTQBt1YeegnpZfUR7" target="_blank" rel="noopener">Contacta con la organización</a></p>
           </div>
         </div>
         <div class="info-card-body" style="padding-top:0;">
           <div class="accred-box">
             <strong>Acreditación:</strong> solicitada la acreditación de la actividad por la Comisión de Acreditación de la Formación Continuada de las Profesiones Sanitarias del Principado de Asturias.
+          </div>
+          <div class="contact-row">
+            <h3 class="contact-title">Contacta con la Organización</h3>
+            <div class="contact-actions">
+              <a class="btn btn-navy" href="https://forms.gle/GTQBt1YeegnpZfUR7" target="_blank" rel="noopener">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v14H7l-3 3V4z"/></svg>
+                Formulario de contacto
+              </a>
+              <a class="btn btn-navy" href="https://gemini.google.com/gem/18coUnyDkmJehRgVYXGqIOJoCCYZK8eTn?usp=sharing" target="_blank" rel="noopener">
+                <img src="imagenes/ponentes/SaludIA.jpg" alt="" class="btn-icon-img">
+                Pregunta a SaludIA
+              </a>
+            </div>
           </div>
           <div class="orgs-row">
             <h3 class="orgs-title">Organizado por</h3>
@@ -1044,6 +1065,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
           <a href="#sede">Cómo llegar</a>
           <a href="#inscripcion">Inscripción y acreditación</a>
           <a href="https://forms.gle/GTQBt1YeegnpZfUR7" target="_blank" rel="noopener">Contacta con la organización</a>
+          <a href="ponentes.html">Área de ponentes</a>
         </div>
         <div class="footer-col">
           <h4>Organiza</h4>

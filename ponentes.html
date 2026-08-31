@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Área de ponentes · 2ª Jornada IA y Transformación Digital en Salud</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="imagenes/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-950:#081321; --navy-900:#0B1D30; --navy-800:#0F2A44; --navy-700:#173B5C;
+  --cyan:#3FDDEE; --cyan-dim:#2AA9BA; --gold:#E8B23C; --gold-dim:#C99424;
+  --paper:#F6F8FA; --paper-alt:#EDF1F5; --ink:#0D1B2A; --ink-soft:#3E4C5A;
+  --line:#DCE3E9; --white:#FFFFFF; --radius:14px; --maxw:640px;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;margin:0;color:var(--navy-900);}
+.mono{font-family:'IBM Plex Mono',monospace;}
+a{color:inherit;}
+
+.topbar{background:var(--navy-950);padding:16px 24px;}
+.topbar-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:9px;color:var(--white);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14.5px;}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);}
+.back-link{color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;}
+.back-link:hover{color:var(--white);}
+
+main{max-width:var(--maxw);margin:0 auto;padding:56px 24px 80px;}
+
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--cyan-dim);margin-bottom:10px;font-weight:600;
+}
+h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
+.lead{color:var(--ink-soft);font-size:15.5px;line-height:1.65;margin-bottom:36px;}
+
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:32px;}
+
+/* --- pantalla de código --- */
+#codeScreen label{display:block;font-weight:600;font-size:13.5px;color:var(--navy-900);margin-bottom:10px;}
+.code-input{
+  width:100%;font-family:'IBM Plex Mono',monospace;font-size:22px;letter-spacing:0.12em;text-align:center;
+  text-transform:uppercase;padding:16px;border:1.5px solid var(--line);border-radius:10px;color:var(--navy-950);
+  background:var(--paper-alt);
+}
+.code-input:focus{outline:none;border-color:var(--cyan-dim);background:var(--white);}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:18px;
+  padding:14px 24px;border-radius:100px;font-weight:600;font-size:15px;border:none;cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;background:var(--cyan);color:var(--navy-950);
+  transition:transform .15s, box-shadow .15s, opacity .15s;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(63,221,238,0.3);}
+.btn:disabled{opacity:0.55;cursor:default;transform:none;box-shadow:none;}
+.error-msg{
+  margin-top:14px;padding:12px 14px;background:#FDEDED;border:1px solid #F3B9B9;color:#9A2E2E;
+  border-radius:8px;font-size:13.5px;display:none;
+}
+.error-msg.show{display:block;}
+.help-note{margin-top:22px;font-size:13px;color:var(--ink-soft);text-align:center;}
+
+/* --- dashboard --- */
+#dashboard{display:none;}
+.dash-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;gap:12px;}
+.dash-greeting{font-size:13px;color:var(--ink-soft);}
+.dash-greeting strong{display:block;font-size:19px;color:var(--navy-900);font-family:'Space Grotesk',sans-serif;margin-top:2px;}
+.logout-btn{
+  background:none;border:1px solid var(--line);color:var(--ink-soft);font-size:12.5px;padding:8px 14px;
+  border-radius:100px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;white-space:nowrap;
+}
+.logout-btn:hover{border-color:var(--navy-700);color:var(--navy-900);}
+
+.dropzone{
+  border:2px dashed var(--line);border-radius:12px;padding:36px 20px;text-align:center;cursor:pointer;
+  transition:border-color .2s, background .2s;
+}
+.dropzone.drag-over{border-color:var(--cyan-dim);background:rgba(63,221,238,0.06);}
+.dropzone svg{color:var(--cyan-dim);margin-bottom:10px;}
+.dropzone p{margin:0;font-weight:600;color:var(--navy-900);font-size:14.5px;}
+.dropzone span{display:block;margin-top:5px;font-size:12.5px;color:var(--ink-soft);}
+#fileInput{display:none;}
+
+.upload-list{margin-top:22px;display:flex;flex-direction:column;gap:10px;}
+.upload-item{
+  display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--paper-alt);border-radius:10px;
+}
+.upload-item-icon{flex:none;width:34px;height:34px;border-radius:8px;background:var(--white);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--cyan-dim);}
+.upload-item-info{flex:1;min-width:0;}
+.upload-item-name{font-size:13.5px;font-weight:600;color:var(--navy-900);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.upload-item-meta{font-size:11.5px;color:var(--ink-soft);margin-top:1px;}
+.upload-item-progress{height:3px;background:var(--line);border-radius:3px;margin-top:6px;overflow:hidden;}
+.upload-item-progress-bar{height:100%;background:var(--cyan-dim);width:0%;transition:width .2s;}
+.upload-item-delete{flex:none;background:none;border:none;color:var(--ink-soft);cursor:pointer;padding:6px;}
+.upload-item-delete:hover{color:#C0392B;}
+
+.submitted-section{margin-top:34px;}
+.submitted-section h3{font-size:14px;margin-bottom:14px;}
+.empty-note{font-size:13.5px;color:var(--ink-soft);padding:14px 0;}
+
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--navy-950);color:var(--white);padding:12px 22px;border-radius:100px;font-size:13.5px;
+  opacity:0;transition:opacity .25s, transform .25s;pointer-events:none;z-index:50;font-weight:600;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="brand"><span class="dot"></span>2ª Jornada IA &amp; Salud</a>
+    <a href="index.html" class="back-link">← Volver a la web</a>
+  </div>
+</div>
+
+<main>
+  <span class="eyebrow">Área privada</span>
+  <h1>Área de ponentes</h1>
+  <p class="lead">Sube aquí tu presentación u otros materiales para la jornada. Solo tú puedes ver y gestionar tus propios archivos.</p>
+
+  <!-- Pantalla 1: introducir código -->
+  <section id="codeScreen" class="card">
+    <label for="codeInput">Introduce tu código de acceso</label>
+    <input id="codeInput" class="code-input mono" type="text" maxlength="7" autocomplete="off" autocapitalize="characters" placeholder="ABC1234">
+    <button class="btn" id="submitCodeBtn" type="button">Entrar</button>
+    <div class="error-msg" id="codeError"></div>
+    <p class="help-note">Este código te lo hemos enviado por correo. Si no lo encuentras, escribe a la organización.</p>
+  </section>
+
+  <!-- Pantalla 2: panel una vez dentro -->
+  <section id="dashboard" class="card">
+    <div class="dash-header">
+      <div class="dash-greeting">Hola <strong id="greetName">–</strong></div>
+      <button class="logout-btn" id="logoutBtn" type="button">Salir</button>
+    </div>
+
+    <div class="dropzone" id="dropzone">
+      <input type="file" id="fileInput" multiple>
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+      <p>Arrastra tus archivos aquí</p>
+      <span>o toca para seleccionarlos · máx. 50&nbsp;MB por archivo</span>
+    </div>
+
+    <div class="upload-list" id="uploadList"></div>
+
+    <div class="submitted-section">
+      <h3>Tus archivos enviados</h3>
+      <div id="submittedList"><p class="empty-note">Aún no has enviado ningún archivo.</p></div>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL = "https://harizyxxgutjqdcqxgbq.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhhcml6eXh4Z3V0anFkY3F4Z2JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwNTc1ODAsImV4cCI6MjEwMzYzMzU4MH0.krxxzu3uMgIoUKciMw5YXtmJU2GeigrYMUVrg4uo318";
+const BUCKET = "ponentes-archivos";
+const MAX_FILE_SIZE = 50 * 1024 * 1024;
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const codeScreen = document.getElementById("codeScreen");
+const dashboard = document.getElementById("dashboard");
+const codeInput = document.getElementById("codeInput");
+const submitCodeBtn = document.getElementById("submitCodeBtn");
+const codeError = document.getElementById("codeError");
+const greetName = document.getElementById("greetName");
+const logoutBtn = document.getElementById("logoutBtn");
+const dropzone = document.getElementById("dropzone");
+const fileInput = document.getElementById("fileInput");
+const uploadList = document.getElementById("uploadList");
+const submittedList = document.getElementById("submittedList");
+const toast = document.getElementById("toast");
+
+let currentSpeaker = null; // {speaker_id, name}
+
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2600);
+}
+
+function showError(msg){
+  codeError.textContent = msg;
+  codeError.classList.add("show");
+}
+function clearError(){
+  codeError.classList.remove("show");
+}
+
+function showDashboard(speaker){
+  currentSpeaker = speaker;
+  greetName.textContent = speaker.name;
+  codeScreen.style.display = "none";
+  dashboard.style.display = "block";
+  localStorage.setItem("ponente_nombre", speaker.name);
+  localStorage.setItem("ponente_id", speaker.speaker_id);
+  loadSubmissions();
+}
+
+function showCodeScreen(){
+  dashboard.style.display = "none";
+  codeScreen.style.display = "block";
+  codeInput.value = "";
+  codeInput.focus();
+}
+
+// ---------- Verificar código y entrar ----------
+async function attemptLogin(code){
+  clearError();
+  if (!code || code.length < 4) {
+    showError("Escribe tu código de acceso.");
+    return;
+  }
+  submitCodeBtn.disabled = true;
+  submitCodeBtn.textContent = "Comprobando…";
+
+  try {
+    // 1) comprobar que el código existe (sin necesidad de sesión)
+    const { data: checkData, error: checkErr } = await supabase.rpc("verificar_codigo", { codigo: code });
+    if (checkErr || !checkData || checkData.length === 0) {
+      showError("Ese código no es válido. Revísalo e inténtalo de nuevo.");
+      return;
+    }
+
+    // 2) crear sesión anónima si no existe ya una
+    let { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      const { error: authErr } = await supabase.auth.signInAnonymously();
+      if (authErr) { showError("No se pudo iniciar sesión. Inténtalo de nuevo."); return; }
+    }
+
+    // 3) vincular la sesión con el ponente dueño del código
+    const { data: linkData, error: linkErr } = await supabase.rpc("vincular_sesion", { codigo: code });
+    if (linkErr || !linkData || linkData.length === 0) {
+      showError("No se pudo verificar el código. Inténtalo de nuevo.");
+      return;
+    }
+
+    showDashboard(linkData[0]);
+  } catch (e) {
+    showError("Ha ocurrido un error. Comprueba tu conexión e inténtalo de nuevo.");
+  } finally {
+    submitCodeBtn.disabled = false;
+    submitCodeBtn.textContent = "Entrar";
+  }
+}
+
+submitCodeBtn.addEventListener("click", () => attemptLogin(codeInput.value.trim().toUpperCase()));
+codeInput.addEventListener("keydown", (e) => { if (e.key === "Enter") attemptLogin(codeInput.value.trim().toUpperCase()); });
+codeInput.addEventListener("input", () => { codeInput.value = codeInput.value.toUpperCase(); });
+
+// ---------- Cerrar sesión ----------
+logoutBtn.addEventListener("click", async () => {
+  await supabase.auth.signOut();
+  localStorage.removeItem("ponente_nombre");
+  localStorage.removeItem("ponente_id");
+  currentSpeaker = null;
+  showCodeScreen();
+});
+
+// ---------- Recuperar sesión al recargar la página ----------
+async function init(){
+  const { data: { session } } = await supabase.auth.getSession();
+  const cachedName = localStorage.getItem("ponente_nombre");
+  const cachedId = localStorage.getItem("ponente_id");
+  if (session && cachedName && cachedId) {
+    showDashboard({ speaker_id: cachedId, name: cachedName });
+  } else {
+    showCodeScreen();
+  }
+}
+init();
+
+// ---------- Subida de archivos ----------
+dropzone.addEventListener("click", () => fileInput.click());
+dropzone.addEventListener("dragover", (e) => { e.preventDefault(); dropzone.classList.add("drag-over"); });
+dropzone.addEventListener("dragleave", () => dropzone.classList.remove("drag-over"));
+dropzone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropzone.classList.remove("drag-over");
+  handleFiles(e.dataTransfer.files);
+});
+fileInput.addEventListener("change", () => { handleFiles(fileInput.files); fileInput.value = ""; });
+
+function fmtSize(bytes){
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + " KB";
+  return (bytes/1024/1024).toFixed(1) + " MB";
+}
+
+function handleFiles(fileList){
+  Array.from(fileList).forEach(uploadFile);
+}
+
+async function uploadFile(file){
+  if (!currentSpeaker) return;
+  if (file.size > MAX_FILE_SIZE) {
+    showToast(`"${file.name}" supera los 50 MB. No se ha subido.`);
+    return;
+  }
+
+  const row = document.createElement("div");
+  row.className = "upload-item";
+  row.innerHTML = `
+    <div class="upload-item-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3v5h5M6 3h8l5 5v13H6z"/></svg>
+    </div>
+    <div class="upload-item-info">
+      <div class="upload-item-name">${file.name}</div>
+      <div class="upload-item-meta">${fmtSize(file.size)}</div>
+      <div class="upload-item-progress"><div class="upload-item-progress-bar"></div></div>
+    </div>
+  `;
+  uploadList.appendChild(row);
+  const bar = row.querySelector(".upload-item-progress-bar");
+  bar.style.width = "15%";
+
+  const safeName = file.name.replace(/[^\w.\-]+/g, "_");
+  const path = `${currentSpeaker.speaker_id}/${Date.now()}-${safeName}`;
+
+  const { error: upErr } = await supabase.storage.from(BUCKET).upload(path, file, { upsert: false });
+  if (upErr) {
+    row.querySelector(".upload-item-meta").textContent = "Error al subir · inténtalo de nuevo";
+    bar.style.background = "#C0392B";
+    return;
+  }
+  bar.style.width = "70%";
+
+  const { error: insErr } = await supabase.from("submissions").insert({
+    speaker_id: currentSpeaker.speaker_id,
+    file_name: file.name,
+    storage_path: path,
+    file_size: file.size
+  });
+
+  bar.style.width = "100%";
+  setTimeout(() => row.remove(), 700);
+
+  if (insErr) {
+    showToast(`"${file.name}" se subió, pero hubo un problema al registrarlo.`);
+  } else {
+    showToast(`"${file.name}" enviado correctamente ✓`);
+  }
+  loadSubmissions();
+}
+
+// ---------- Listar archivos ya enviados ----------
+async function loadSubmissions(){
+  const { data, error } = await supabase
+    .from("submissions")
+    .select("*")
+    .eq("speaker_id", currentSpeaker.speaker_id)
+    .order("uploaded_at", { ascending: false });
+
+  if (error || !data || data.length === 0) {
+    submittedList.innerHTML = '<p class="empty-note">Aún no has enviado ningún archivo.</p>';
+    return;
+  }
+
+  submittedList.innerHTML = data.map(row => `
+    <div class="upload-item">
+      <div class="upload-item-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3v5h5M6 3h8l5 5v13H6z"/></svg>
+      </div>
+      <div class="upload-item-info">
+        <div class="upload-item-name">${row.file_name}</div>
+        <div class="upload-item-meta">${fmtSize(row.file_size || 0)} · ${new Date(row.uploaded_at).toLocaleDateString("es-ES", {day:"2-digit", month:"short", hour:"2-digit", minute:"2-digit"})}</div>
+      </div>
+      <button class="upload-item-delete" data-id="${row.id}" data-path="${row.storage_path}" aria-label="Eliminar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6"/></svg>
+      </button>
+    </div>
+  `).join("");
+
+  submittedList.querySelectorAll(".upload-item-delete").forEach(btn => {
+    btn.addEventListener("click", () => deleteSubmission(btn.dataset.id, btn.dataset.path));
+  });
+}
+
+async function deleteSubmission(id, path){
+  await supabase.storage.from(BUCKET).remove([path]);
+  await supabase.from("submissions").delete().eq("id", id);
+  showToast("Archivo eliminado");
+  loadSubmissions();
+}
+</script>
+</body>
+</html>
