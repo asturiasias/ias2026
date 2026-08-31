@@ -346,6 +346,7 @@ async function uploadFile(file){
   setTimeout(() => row.remove(), 700);
 
   if (insErr) {
+    console.error("Error al registrar el archivo en la base de datos:", insErr);
     showToast(`"${file.name}" se subió, pero hubo un problema al registrarlo.`);
   } else {
     showToast(`"${file.name}" enviado correctamente ✓`);
@@ -361,7 +362,12 @@ async function loadSubmissions(){
     .eq("speaker_id", currentSpeaker.speaker_id)
     .order("uploaded_at", { ascending: false });
 
-  if (error || !data || data.length === 0) {
+  if (error) {
+    console.error("Error al cargar tus archivos:", error);
+    submittedList.innerHTML = '<p class="empty-note">No se pudieron cargar tus archivos. Recarga la página o inténtalo de nuevo en unos minutos.</p>';
+    return;
+  }
+  if (!data || data.length === 0) {
     submittedList.innerHTML = '<p class="empty-note">Aún no has enviado ningún archivo.</p>';
     return;
   }
