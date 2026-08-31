@@ -444,12 +444,15 @@ section{padding:84px 0;}
 .contact-actions{display:flex;flex-wrap:wrap;gap:12px;}
 .btn-icon-img{width:20px;height:20px;border-radius:50%;object-fit:cover;flex:none;}
 
-.orgs-row{
-  margin-top:28px;padding-top:28px;border-top:1px solid var(--line);
+.organiza-head{text-align:center;margin-left:auto;margin-right:auto;}
+.organiza-logos{
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:64px;margin-top:8px;
 }
-.orgs-title{font-size:17px;margin-bottom:16px;}
-.orgs-logos{display:flex;flex-wrap:wrap;gap:28px;align-items:center;}
-.orgs-logos img{width:130px;height:auto;flex:none;}
+.organiza-logos img{width:210px;height:auto;flex:none;}
+@media(max-width:640px){
+  .organiza-logos{gap:40px;}
+  .organiza-logos img{width:150px;}
+}
 
 /* ---------- FOOTER ---------- */
 .social-grid{
@@ -987,14 +990,6 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
               </a>
             </div>
           </div>
-          <div class="orgs-row">
-            <h3 class="orgs-title">Organizado por</h3>
-            <div class="orgs-logos">
-              <img src="imagenes/logo_consejeria.png" alt="Logo Principado de Asturias, Consejería de Salud">
-              <img src="imagenes/logo_aviles.png" alt="Logo Ayuntamiento de Avilés">
-              <img src="imagenes/logo_sespa.png" alt="Logo SESPA, Servicio de Salud del Principado de Asturias">
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -1043,6 +1038,20 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
   </div>
 </section>
 
+
+<section id="organiza">
+  <div class="wrap">
+    <div class="section-head organiza-head">
+      <span class="section-num">Institucional</span>
+      <h2>Organizado por</h2>
+    </div>
+    <div class="organiza-logos">
+      <img src="imagenes/logo_consejeria.png" alt="Logo Principado de Asturias, Consejería de Salud">
+      <img src="imagenes/logo_aviles.png" alt="Logo Ayuntamiento de Avilés">
+      <img src="imagenes/logo_sespa.png" alt="Logo SESPA, Servicio de Salud del Principado de Asturias">
+    </div>
+  </div>
+</section>
 
 </main>
 
