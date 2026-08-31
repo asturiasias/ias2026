@@ -1,7 +1,7 @@
 // Service Worker — 2ª Jornada IA y Transformación Digital en Salud
 // Sube este número cada vez que cambies index.html u otros archivos cacheados,
 // para que los usuarios reciban la versión nueva en su próxima visita.
-const CACHE_VERSION = "v3";
+const CACHE_VERSION = "v4";
 const PRECACHE = `jornada-ia-salud-precache-${CACHE_VERSION}`;
 const RUNTIME = `jornada-ia-salud-runtime-${CACHE_VERSION}`;
 
