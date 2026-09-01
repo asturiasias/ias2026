@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de administración · 2ª Jornada IA y Transformación Digital en Salud</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="imagenes/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-950:#081321; --navy-900:#0B1D30; --navy-800:#0F2A44; --navy-700:#173B5C;
+  --cyan:#3FDDEE; --cyan-dim:#2AA9BA; --gold:#E8B23C; --gold-dim:#C99424;
+  --paper:#F6F8FA; --paper-alt:#EDF1F5; --ink:#0D1B2A; --ink-soft:#3E4C5A;
+  --line:#DCE3E9; --white:#FFFFFF; --radius:14px; --maxw:1100px;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;margin:0;color:var(--navy-900);}
+.mono{font-family:'IBM Plex Mono',monospace;}
+a{color:inherit;}
+
+.topbar{background:var(--navy-950);padding:16px 24px;}
+.topbar-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:9px;color:var(--white);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14.5px;}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold);}
+.back-link{color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;}
+.back-link:hover{color:var(--white);}
+
+main{max-width:var(--maxw);margin:0 auto;padding:56px 24px 80px;}
+.narrow{max-width:440px;margin:0 auto;padding:56px 24px 80px;}
+
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--gold-dim);margin-bottom:10px;font-weight:600;
+}
+h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
+.lead{color:var(--ink-soft);font-size:15.5px;line-height:1.65;margin-bottom:36px;}
+
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:32px;}
+
+/* --- login --- */
+#loginScreen label{display:block;font-weight:600;font-size:13.5px;color:var(--navy-900);margin-bottom:8px;}
+#loginScreen input{
+  width:100%;font-family:'IBM Plex Sans',sans-serif;font-size:14.5px;padding:13px 14px;
+  border:1.5px solid var(--line);border-radius:10px;color:var(--navy-950);background:var(--paper-alt);margin-bottom:16px;
+}
+#loginScreen input:focus{outline:none;border-color:var(--cyan-dim);background:var(--white);}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 22px;border-radius:100px;font-weight:600;font-size:14.5px;border:none;cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;background:var(--navy-900);color:var(--white);
+  transition:transform .15s, box-shadow .15s, opacity .15s;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(15,42,68,0.25);}
+.btn:disabled{opacity:0.55;cursor:default;transform:none;box-shadow:none;}
+.btn-full{width:100%;}
+.error-msg{
+  margin-top:14px;padding:12px 14px;background:#FDEDED;border:1px solid #F3B9B9;color:#9A2E2E;
+  border-radius:8px;font-size:13.5px;display:none;
+}
+.error-msg.show{display:block;}
+
+/* --- dashboard admin --- */
+#adminScreen{display:none;}
+.admin-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;gap:12px;flex-wrap:wrap;}
+.logout-btn{
+  background:none;border:1px solid var(--line);color:var(--ink-soft);font-size:12.5px;padding:8px 14px;
+  border-radius:100px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;white-space:nowrap;
+}
+.logout-btn:hover{border-color:var(--navy-700);color:var(--navy-900);}
+
+.stats-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px;}
+.stat-card{
+  background:var(--white);border:1px solid var(--line);border-radius:12px;padding:16px 20px;flex:1;min-width:140px;
+}
+.stat-num{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:26px;color:var(--navy-900);}
+.stat-label{font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;}
+
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.search-box{position:relative;flex:1;min-width:220px;max-width:340px;}
+.search-box input{
+  width:100%;border:1px solid var(--line);background:var(--white);border-radius:100px;padding:10px 16px 10px 36px;
+  font-family:'IBM Plex Sans',sans-serif;font-size:14px;color:var(--ink);
+}
+.search-box input:focus{outline:2px solid var(--cyan-dim);outline-offset:1px;}
+.search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:0.45;}
+.refresh-btn{
+  background:none;border:1px solid var(--line);color:var(--ink-soft);font-size:13px;padding:9px 16px;
+  border-radius:100px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;display:inline-flex;align-items:center;gap:6px;
+}
+.refresh-btn:hover{border-color:var(--navy-700);color:var(--navy-900);}
+
+.table-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;}
+th{
+  text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;
+  color:var(--ink-soft);padding:14px 16px;border-bottom:1px solid var(--line);background:var(--paper-alt);white-space:nowrap;
+}
+td{padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--paper-alt);}
+.file-name-cell{display:flex;align-items:center;gap:10px;}
+.file-icon{flex:none;width:28px;height:28px;border-radius:7px;background:var(--paper-alt);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--cyan-dim);}
+.file-name-text{font-weight:600;color:var(--navy-900);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.speaker-name{font-weight:600;color:var(--navy-900);}
+.row-actions{display:flex;gap:8px;white-space:nowrap;}
+.icon-btn{
+  background:none;border:1px solid var(--line);color:var(--ink-soft);padding:7px;border-radius:8px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.icon-btn:hover{border-color:var(--navy-700);color:var(--navy-900);}
+.icon-btn.danger:hover{border-color:#C0392B;color:#C0392B;}
+.empty-note{padding:40px 20px;text-align:center;color:var(--ink-soft);font-size:14px;}
+
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--navy-950);color:var(--white);padding:12px 22px;border-radius:100px;font-size:13.5px;
+  opacity:0;transition:opacity .25s, transform .25s;pointer-events:none;z-index:50;font-weight:600;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@media(max-width:720px){
+  .file-name-text{max-width:140px;}
+  table{font-size:12.5px;}
+  th,td{padding:10px 10px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="brand"><span class="dot"></span>2ª Jornada IA & Salud · Admin</a>
+    <a href="index.html" class="back-link">← Volver a la web</a>
+  </div>
+</div>
+
+<!-- Pantalla de login -->
+<div class="narrow" id="loginScreen">
+  <span class="eyebrow">Panel interno</span>
+  <h1>Administración</h1>
+  <p class="lead">Acceso restringido al equipo organizador para revisar los archivos enviados por los ponentes.</p>
+  <div class="card">
+    <label for="emailInput">Correo</label>
+    <input id="emailInput" type="email" autocomplete="username">
+    <label for="passInput">Contraseña</label>
+    <input id="passInput" type="password" autocomplete="current-password">
+    <button class="btn btn-full" id="loginBtn" type="button">Entrar</button>
+    <div class="error-msg" id="loginError"></div>
+  </div>
+</div>
+
+<!-- Panel principal -->
+<main id="adminScreen">
+  <div class="admin-header">
+    <div>
+      <span class="eyebrow">Panel interno</span>
+      <h1>Archivos de los ponentes</h1>
+    </div>
+    <button class="logout-btn" id="logoutBtn" type="button">Salir</button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" id="statFiles">–</div><div class="stat-label">Archivos totales</div></div>
+    <div class="stat-card"><div class="stat-num" id="statSpeakers">–</div><div class="stat-label">Ponentes que han enviado</div></div>
+    <div class="stat-card"><div class="stat-num" id="statSize">–</div><div class="stat-label">Espacio usado</div></div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar por ponente o archivo…">
+    </div>
+    <button class="refresh-btn" id="refreshBtn" type="button">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 11-2.64-6.36M21 3v6h-6"/></svg>
+      Actualizar
+    </button>
+  </div>
+
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Ponente</th>
+          <th>Archivo</th>
+          <th>Tamaño</th>
+          <th>Fecha</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="filesBody"></tbody>
+    </table>
+    <div class="empty-note" id="emptyNote" style="display:none;">No hay archivos que coincidan con la búsqueda.</div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL = "https://harizyxxgutjqdcqxgbq.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhhcml6eXh4Z3V0anFkY3F4Z2JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwNTc1ODAsImV4cCI6MjEwMzYzMzU4MH0.krxxzu3uMgIoUKciMw5YXtmJU2GeigrYMUVrg4uo318";
+const BUCKET = "ponentes-archivos";
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const loginScreen = document.getElementById("loginScreen");
+const adminScreen = document.getElementById("adminScreen");
+const emailInput = document.getElementById("emailInput");
+const passInput = document.getElementById("passInput");
+const loginBtn = document.getElementById("loginBtn");
+const loginError = document.getElementById("loginError");
+const logoutBtn = document.getElementById("logoutBtn");
+const searchInput = document.getElementById("searchInput");
+const refreshBtn = document.getElementById("refreshBtn");
+const filesBody = document.getElementById("filesBody");
+const emptyNote = document.getElementById("emptyNote");
+const statFiles = document.getElementById("statFiles");
+const statSpeakers = document.getElementById("statSpeakers");
+const statSize = document.getElementById("statSize");
+const toast = document.getElementById("toast");
+
+let allRows = [];
+
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2600);
+}
+
+function fmtSize(bytes){
+  if (!bytes) return "0 B";
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + " KB";
+  return (bytes/1024/1024).toFixed(1) + " MB";
+}
+
+function showAdmin(){
+  loginScreen.style.display = "none";
+  adminScreen.style.display = "block";
+  loadAllSubmissions();
+}
+function showLogin(){
+  adminScreen.style.display = "none";
+  loginScreen.style.display = "block";
+  passInput.value = "";
+}
+
+async function init(){
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) showAdmin(); else showLogin();
+}
+init();
+
+async function attemptLogin(){
+  loginError.classList.remove("show");
+  const email = emailInput.value.trim();
+  const pass = passInput.value;
+  if (!email || !pass) { loginError.textContent = "Escribe correo y contraseña."; loginError.classList.add("show"); return; }
+
+  loginBtn.disabled = true;
+  loginBtn.textContent = "Comprobando…";
+  const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
+  loginBtn.disabled = false;
+  loginBtn.textContent = "Entrar";
+
+  if (error) {
+    loginError.textContent = "Correo o contraseña incorrectos.";
+    loginError.classList.add("show");
+    return;
+  }
+  showAdmin();
+}
+loginBtn.addEventListener("click", attemptLogin);
+passInput.addEventListener("keydown", (e) => { if (e.key === "Enter") attemptLogin(); });
+
+logoutBtn.addEventListener("click", async () => {
+  await supabase.auth.signOut();
+  showLogin();
+});
+
+async function loadAllSubmissions(){
+  filesBody.innerHTML = `<tr><td colspan="5" class="empty-note">Cargando…</td></tr>`;
+  const { data, error } = await supabase
+    .from("submissions")
+    .select("id, speaker_id, file_name, storage_path, file_size, uploaded_at, speakers(name)")
+    .order("uploaded_at", { ascending: false });
+
+  if (error) {
+    console.error("Error al cargar los archivos:", error);
+    filesBody.innerHTML = "";
+    emptyNote.textContent = "No se pudieron cargar los archivos. Comprueba que tu usuario tiene permisos de administrador.";
+    emptyNote.style.display = "block";
+    return;
+  }
+
+  allRows = data || [];
+  renderStats();
+  renderTable(allRows);
+}
+
+function renderStats(){
+  const totalFiles = allRows.length;
+  const speakerSet = new Set(allRows.map(r => r.speaker_id));
+  const totalSize = allRows.reduce((sum, r) => sum + (r.file_size || 0), 0);
+  statFiles.textContent = totalFiles;
+  statSpeakers.textContent = speakerSet.size;
+  statSize.textContent = fmtSize(totalSize);
+}
+
+function renderTable(rows){
+  if (rows.length === 0) {
+    filesBody.innerHTML = "";
+    emptyNote.style.display = "block";
+    return;
+  }
+  emptyNote.style.display = "none";
+
+  filesBody.innerHTML = rows.map(row => `
+    <tr data-id="${row.id}">
+      <td><span class="speaker-name">${row.speakers ? row.speakers.name : row.speaker_id}</span></td>
+      <td>
+        <div class="file-name-cell">
+          <div class="file-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3v5h5M6 3h8l5 5v13H6z"/></svg></div>
+          <span class="file-name-text" title="${row.file_name}">${row.file_name}</span>
+        </div>
+      </td>
+      <td class="mono">${fmtSize(row.file_size)}</td>
+      <td class="mono">${new Date(row.uploaded_at).toLocaleDateString("es-ES", {day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit"})}</td>
+      <td>
+        <div class="row-actions">
+          <button class="icon-btn" data-action="download" data-path="${row.storage_path}" data-name="${row.file_name}" aria-label="Descargar" title="Descargar">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+          </button>
+          <button class="icon-btn danger" data-action="delete" data-id="${row.id}" data-path="${row.storage_path}" aria-label="Eliminar" title="Eliminar">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join("");
+
+  filesBody.querySelectorAll('[data-action="download"]').forEach(btn => {
+    btn.addEventListener("click", () => downloadFile(btn.dataset.path, btn.dataset.name));
+  });
+  filesBody.querySelectorAll('[data-action="delete"]').forEach(btn => {
+    btn.addEventListener("click", () => deleteFile(btn.dataset.id, btn.dataset.path));
+  });
+}
+
+async function downloadFile(path, name){
+  const { data, error } = await supabase.storage.from(BUCKET).createSignedUrl(path, 60);
+  if (error || !data) { showToast("No se pudo generar el enlace de descarga."); return; }
+  const a = document.createElement("a");
+  a.href = data.signedUrl;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+async function deleteFile(id, path){
+  if (!confirm("¿Eliminar este archivo? Esta acción no se puede deshacer.")) return;
+  await supabase.storage.from(BUCKET).remove([path]);
+  await supabase.from("submissions").delete().eq("id", id);
+  showToast("Archivo eliminado");
+  loadAllSubmissions();
+}
+
+searchInput.addEventListener("input", () => {
+  const q = searchInput.value.trim().toLowerCase();
+  if (!q) { renderTable(allRows); return; }
+  const filtered = allRows.filter(r =>
+    (r.speakers && r.speakers.name.toLowerCase().includes(q)) ||
+    r.file_name.toLowerCase().includes(q)
+  );
+  renderTable(filtered);
+});
+
+refreshBtn.addEventListener("click", loadAllSubmissions);
+</script>
+</body>
+</html>

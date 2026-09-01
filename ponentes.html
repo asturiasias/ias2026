@@ -36,7 +36,15 @@ main{max-width:var(--maxw);margin:0 auto;padding:56px 24px 80px;}
   color:var(--cyan-dim);margin-bottom:10px;font-weight:600;
 }
 h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
-.lead{color:var(--ink-soft);font-size:15.5px;line-height:1.65;margin-bottom:36px;}
+.lead{color:var(--ink-soft);font-size:15.5px;line-height:1.65;margin-bottom:24px;}
+
+.info-box{
+  background:rgba(63,221,238,0.07);border:1px solid rgba(42,169,186,0.3);border-radius:10px;
+  padding:16px 18px;margin-bottom:36px;
+}
+.info-box p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+.info-box p + p{margin-top:10px;}
+.info-box strong{color:var(--navy-900);}
 
 .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:32px;}
 
@@ -123,6 +131,11 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
   <h1>Área de ponentes</h1>
   <p class="lead">Sube aquí tu presentación u otros materiales para la jornada. Solo tú puedes ver y gestionar tus propios archivos.</p>
 
+  <div class="info-box">
+    <p><strong>Formatos admitidos:</strong> únicamente PowerPoint (.pptx) para la presentación y MP4 (.mp4) para vídeos. No se admite ningún otro formato.</p>
+    <p><strong>¿Necesitas acceder a algún sitio de Internet durante tu intervención?</strong> Indícalo con antelación: sube un archivo Word (.docx) o de texto (.txt) con las direcciones URL de los sitios que vas a necesitar.</p>
+  </div>
+
   <!-- Pantalla 1: introducir código -->
   <section id="codeScreen" class="card">
     <label for="codeInput">Introduce tu código de acceso</label>
@@ -140,10 +153,10 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
     </div>
 
     <div class="dropzone" id="dropzone">
-      <input type="file" id="fileInput" multiple>
+      <input type="file" id="fileInput" multiple accept=".pptx,.mp4,.docx,.txt">
       <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
       <p>Arrastra tus archivos aquí</p>
-      <span>o toca para seleccionarlos · máx. 50&nbsp;MB por archivo</span>
+      <span>o toca para seleccionarlos · PPTX, MP4, DOCX o TXT · máx. 50&nbsp;MB por archivo</span>
     </div>
 
     <div class="upload-list" id="uploadList"></div>
@@ -301,11 +314,37 @@ function handleFiles(fileList){
   Array.from(fileList).forEach(uploadFile);
 }
 
+const ALLOWED_EXTENSIONS = [".pptx", ".mp4", ".docx", ".txt"];
+let currentSubmissions = [];
+
+function getExtension(filename){
+  const i = filename.lastIndexOf(".");
+  return i === -1 ? "" : filename.slice(i).toLowerCase();
+}
+
 async function uploadFile(file){
   if (!currentSpeaker) return;
+
+  const ext = getExtension(file.name);
+  if (!ALLOWED_EXTENSIONS.includes(ext)) {
+    showToast(`"${file.name}" no es un formato admitido. Solo se aceptan .pptx, .mp4, .docx o .txt.`);
+    return;
+  }
   if (file.size > MAX_FILE_SIZE) {
     showToast(`"${file.name}" supera los 50 MB. No se ha subido.`);
     return;
+  }
+
+  // Aviso si ya existe un archivo con el mismo nombre
+  const existing = currentSubmissions.find(s => s.file_name === file.name);
+  if (existing) {
+    const replace = confirm(`Ya subiste un archivo llamado "${file.name}". ¿Quieres reemplazarlo?`);
+    if (!replace) {
+      showToast("Subida cancelada.");
+      return;
+    }
+    await supabase.storage.from(BUCKET).remove([existing.storage_path]);
+    await supabase.from("submissions").delete().eq("id", existing.id);
   }
 
   const row = document.createElement("div");
@@ -367,6 +406,7 @@ async function loadSubmissions(){
     submittedList.innerHTML = '<p class="empty-note">No se pudieron cargar tus archivos. Recarga la página o inténtalo de nuevo en unos minutos.</p>';
     return;
   }
+  currentSubmissions = data || [];
   if (!data || data.length === 0) {
     submittedList.innerHTML = '<p class="empty-note">Aún no has enviado ningún archivo.</p>';
     return;
