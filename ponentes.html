@@ -74,6 +74,13 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
 /* --- dashboard --- */
 #dashboard{display:none;}
 .dash-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;gap:12px;}
+.dash-header-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
+.admin-link{
+  font-size:12.5px;font-weight:600;color:var(--gold-dim);text-decoration:none;border-bottom:1px dotted var(--gold-dim);
+  white-space:nowrap;
+}
+.admin-link:hover{color:var(--gold);border-color:var(--gold);}
+.admin-link[hidden]{display:none;}
 .dash-greeting{font-size:13px;color:var(--ink-soft);}
 .dash-greeting strong{display:block;font-size:19px;color:var(--navy-900);font-family:'Space Grotesk',sans-serif;margin-top:2px;}
 .logout-btn{
@@ -149,7 +156,10 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
   <section id="dashboard" class="card">
     <div class="dash-header">
       <div class="dash-greeting">Hola <strong id="greetName">–</strong></div>
-      <button class="logout-btn" id="logoutBtn" type="button">Salir</button>
+      <div class="dash-header-actions">
+        <a href="admin.html" class="admin-link" id="adminLink" hidden>Panel de administración</a>
+        <button class="logout-btn" id="logoutBtn" type="button">Salir</button>
+      </div>
     </div>
 
     <div class="dropzone" id="dropzone">
@@ -186,6 +196,7 @@ const codeInput = document.getElementById("codeInput");
 const submitCodeBtn = document.getElementById("submitCodeBtn");
 const codeError = document.getElementById("codeError");
 const greetName = document.getElementById("greetName");
+const adminLink = document.getElementById("adminLink");
 const logoutBtn = document.getElementById("logoutBtn");
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -212,10 +223,12 @@ function clearError(){
 function showDashboard(speaker){
   currentSpeaker = speaker;
   greetName.textContent = speaker.name;
+  adminLink.hidden = !speaker.is_admin;
   codeScreen.style.display = "none";
   dashboard.style.display = "block";
   localStorage.setItem("ponente_nombre", speaker.name);
   localStorage.setItem("ponente_id", speaker.speaker_id);
+  localStorage.setItem("ponente_admin", speaker.is_admin ? "1" : "0");
   loadSubmissions();
 }
 
@@ -276,6 +289,7 @@ logoutBtn.addEventListener("click", async () => {
   await supabase.auth.signOut();
   localStorage.removeItem("ponente_nombre");
   localStorage.removeItem("ponente_id");
+  localStorage.removeItem("ponente_admin");
   currentSpeaker = null;
   showCodeScreen();
 });
@@ -285,8 +299,9 @@ async function init(){
   const { data: { session } } = await supabase.auth.getSession();
   const cachedName = localStorage.getItem("ponente_nombre");
   const cachedId = localStorage.getItem("ponente_id");
+  const cachedAdmin = localStorage.getItem("ponente_admin") === "1";
   if (session && cachedName && cachedId) {
-    showDashboard({ speaker_id: cachedId, name: cachedName });
+    showDashboard({ speaker_id: cachedId, name: cachedName, is_admin: cachedAdmin });
   } else {
     showCodeScreen();
   }

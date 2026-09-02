@@ -44,10 +44,12 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
 /* --- login --- */
 #loginScreen label{display:block;font-weight:600;font-size:13.5px;color:var(--navy-900);margin-bottom:8px;}
 #loginScreen input{
-  width:100%;font-family:'IBM Plex Sans',sans-serif;font-size:14.5px;padding:13px 14px;
-  border:1.5px solid var(--line);border-radius:10px;color:var(--navy-950);background:var(--paper-alt);margin-bottom:16px;
+  width:100%;font-family:'IBM Plex Mono',monospace;font-size:20px;letter-spacing:0.1em;text-align:center;
+  text-transform:uppercase;padding:14px;border:1.5px solid var(--line);border-radius:10px;color:var(--navy-950);
+  background:var(--paper-alt);margin-bottom:16px;
 }
 #loginScreen input:focus{outline:none;border-color:var(--cyan-dim);background:var(--white);}
+.help-note{margin-top:14px;font-size:13px;color:var(--ink-soft);text-align:center;}
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   padding:13px 22px;border-radius:100px;font-weight:600;font-size:14.5px;border:none;cursor:pointer;
@@ -138,18 +140,17 @@ tr:hover td{background:var(--paper-alt);}
   </div>
 </div>
 
-<!-- Pantalla de login -->
+<!-- Pantalla de acceso -->
 <div class="narrow" id="loginScreen">
   <span class="eyebrow">Panel interno</span>
   <h1>Administración</h1>
-  <p class="lead">Acceso restringido al equipo organizador para revisar los archivos enviados por los ponentes.</p>
+  <p class="lead">Acceso restringido a los miembros del comité organizador, para revisar los archivos enviados por los ponentes.</p>
   <div class="card">
-    <label for="emailInput">Correo</label>
-    <input id="emailInput" type="email" autocomplete="username">
-    <label for="passInput">Contraseña</label>
-    <input id="passInput" type="password" autocomplete="current-password">
+    <label for="codeInput">Introduce tu código de acceso</label>
+    <input id="codeInput" class="mono" type="text" maxlength="7" autocomplete="off" autocapitalize="characters" placeholder="ABC1234">
     <button class="btn btn-full" id="loginBtn" type="button">Entrar</button>
     <div class="error-msg" id="loginError"></div>
+    <p class="help-note">Es el mismo código que usas en el área de ponentes.</p>
   </div>
 </div>
 
@@ -210,8 +211,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const loginScreen = document.getElementById("loginScreen");
 const adminScreen = document.getElementById("adminScreen");
-const emailInput = document.getElementById("emailInput");
-const passInput = document.getElementById("passInput");
+const codeInput = document.getElementById("codeInput");
 const loginBtn = document.getElementById("loginBtn");
 const loginError = document.getElementById("loginError");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -247,36 +247,77 @@ function showAdmin(){
 function showLogin(){
   adminScreen.style.display = "none";
   loginScreen.style.display = "block";
-  passInput.value = "";
+  codeInput.value = "";
+  codeInput.focus();
 }
 
+// Al cargar: si hay sesión, comprobamos de verdad si es de un administrador
+// (no basta con que exista sesión: podría ser la de un ponente normal).
 async function init(){
   const { data: { session } } = await supabase.auth.getSession();
-  if (session) showAdmin(); else showLogin();
+  if (!session) { showLogin(); return; }
+
+  const { data: isAdmin, error } = await supabase.rpc("soy_admin");
+  if (error || !isAdmin) {
+    // Sesión de un ponente sin permisos de administrador: no le dejamos pasar
+    showLogin();
+    return;
+  }
+  showAdmin();
 }
 init();
 
 async function attemptLogin(){
   loginError.classList.remove("show");
-  const email = emailInput.value.trim();
-  const pass = passInput.value;
-  if (!email || !pass) { loginError.textContent = "Escribe correo y contraseña."; loginError.classList.add("show"); return; }
-
-  loginBtn.disabled = true;
-  loginBtn.textContent = "Comprobando…";
-  const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
-  loginBtn.disabled = false;
-  loginBtn.textContent = "Entrar";
-
-  if (error) {
-    loginError.textContent = "Correo o contraseña incorrectos.";
+  const code = codeInput.value.trim().toUpperCase();
+  if (!code || code.length < 4) {
+    loginError.textContent = "Escribe tu código de acceso.";
     loginError.classList.add("show");
     return;
   }
-  showAdmin();
+
+  loginBtn.disabled = true;
+  loginBtn.textContent = "Comprobando…";
+
+  try {
+    const { data: checkData, error: checkErr } = await supabase.rpc("verificar_codigo", { codigo: code });
+    if (checkErr || !checkData || checkData.length === 0) {
+      loginError.textContent = "Ese código no es válido. Revísalo e inténtalo de nuevo.";
+      loginError.classList.add("show");
+      return;
+    }
+
+    let { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      const { error: authErr } = await supabase.auth.signInAnonymously();
+      if (authErr) { loginError.textContent = "No se pudo iniciar sesión. Inténtalo de nuevo."; loginError.classList.add("show"); return; }
+    }
+
+    const { data: linkData, error: linkErr } = await supabase.rpc("vincular_sesion", { codigo: code });
+    if (linkErr || !linkData || linkData.length === 0) {
+      loginError.textContent = "No se pudo verificar el código. Inténtalo de nuevo.";
+      loginError.classList.add("show");
+      return;
+    }
+
+    if (!linkData[0].is_admin) {
+      loginError.textContent = "Tu código es válido, pero no tiene permisos de administración.";
+      loginError.classList.add("show");
+      return;
+    }
+
+    showAdmin();
+  } catch (e) {
+    loginError.textContent = "Ha ocurrido un error. Comprueba tu conexión e inténtalo de nuevo.";
+    loginError.classList.add("show");
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Entrar";
+  }
 }
 loginBtn.addEventListener("click", attemptLogin);
-passInput.addEventListener("keydown", (e) => { if (e.key === "Enter") attemptLogin(); });
+codeInput.addEventListener("keydown", (e) => { if (e.key === "Enter") attemptLogin(); });
+codeInput.addEventListener("input", () => { codeInput.value = codeInput.value.toUpperCase(); });
 
 logoutBtn.addEventListener("click", async () => {
   await supabase.auth.signOut();
