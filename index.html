@@ -46,9 +46,9 @@
   --navy-800:#0F2A44;
   --navy-700:#173B5C;
   --cyan:#3FDDEE;
-  --cyan-dim:#2AA9BA;
+  --cyan-dim:#1E7884;
   --gold:#E8B23C;
-  --gold-dim:#C99424;
+  --gold-dim:#8C6719;
   --paper:#F6F8FA;
   --paper-alt:#EDF1F5;
   --ink:#0D1B2A;
@@ -540,15 +540,15 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
 <body>
 <a href="#programa" class="skip-link">Saltar al contenido</a>
 
-<div class="update-tip" id="updateTip" hidden>
+<div class="update-tip" id="updateTip" hidden role="status">
   <div class="update-tip-inner">
     <span class="update-tip-text">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 11-2.64-6.36M21 3v6h-6"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M21 12a9 9 0 11-2.64-6.36M21 3v6h-6"/></svg>
       Hay una versión nueva de la web
     </span>
     <div class="update-tip-actions">
       <button class="update-tip-btn" id="updateTipBtn" type="button">Actualizar</button>
-      <button class="update-tip-close" id="updateTipClose" aria-label="Cerrar">✕</button>
+      <button class="update-tip-close" id="updateTipClose" aria-label="Cerrar aviso de actualización">✕</button>
     </div>
   </div>
 </div>
@@ -580,9 +580,9 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
   </div>
 </nav>
 
-<div class="install-tip" id="installTip" hidden>
+<div class="install-tip" id="installTip" hidden role="status">
   <div class="install-tip-inner">
-    <button class="install-tip-close" id="installTipClose" aria-label="Cerrar">✕</button>
+    <button class="install-tip-close" id="installTipClose" aria-label="Cerrar instrucciones de instalación">✕</button>
     <p><strong>Instalar en iPhone/iPad:</strong> toca el icono <span class="tip-share">de compartir</span> de Safari y luego "Añadir a pantalla de inicio".</p>
   </div>
 </div>
@@ -767,7 +767,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
               <li><a class="speaker-link" data-speaker="maria-concepcion-saavedra-rielo">María Concepción Saavedra Rielo</a> — Consejera de Salud, Principado de Asturias</li>
               <li><a class="speaker-link" data-speaker="ana-suarez-guerra">Ana Suárez Guerra</a> — Concejala de Mayores y Ciudad Saludable, Ayuntamiento de Avilés</li>
               <li><a class="speaker-link" data-speaker="asuncion-artime-garcia">Asunción Artime García</a> — Gerente Área I-Occidente</li>
-              <li><a class="speaker-link" data-speaker="jose-manuel-fernandez-carreira">José Manuel Fernández Carreira</a> — Presidente Comité Organizador</li>
+              <li><a class="speaker-link" data-speaker="jose-manuel-fernandez-carreira">José Manuel Fernández Carreira</a> — Comité Organizador</li>
             </ul>
           </div>
         </div>
@@ -842,7 +842,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
             <p class="t-mod">Modera: <a class="speaker-link" data-speaker="isolina-riano-galan">Isolina Riaño Galán</a></p>
             <ul class="t-talks">
               <li>¿Puede la inteligencia artificial cuidar respetando los valores humanos? Una mirada desde la bioética — <a class="speaker-link" data-speaker="atia-cortes-martinez">Àtia Cortés Martínez</a></li>
-              <li>¿Y si todos tuviéramos un gemelo digital? — <a class="speaker-link" data-speaker="myriam-fernandez-martin">Myriam Fernández Martín</a></li>
+              <li>Gemelos digitales: el nuevo paradigma de la salud personalizada — <a class="speaker-link" data-speaker="myriam-fernandez-martin">Myriam Fernández Martín</a></li>
             </ul>
             <div class="t-actions"><button class="ics-btn" data-ics="Mesa 2: Del paciente al paciente digital|2026-09-30T10:30:00|2026-09-30T11:30:00|Auditorio Centro Niemeyer, Avilés">＋ Añadir al calendario</button>
             <a class="question-btn" href="https://forms.gle/XCi48XMM1S6Cz5MJ8" target="_blank" rel="noopener">
@@ -928,8 +928,8 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
 
     <div class="people-controls">
       <div class="people-tabs" role="tablist" aria-label="Filtrar participantes">
-        <button class="people-tab active" data-group="ponentes">Ponentes (18)</button>
-        <button class="people-tab" data-group="comite">Comité Organizador y Moderadores (12)</button>
+        <button class="people-tab active" role="tab" aria-selected="true" data-group="ponentes">Ponentes (18)</button>
+        <button class="people-tab" role="tab" aria-selected="false" data-group="comite">Comité Organizador y Moderadores (12)</button>
       </div>
       <div class="search-box">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -939,7 +939,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
 
     <div class="people-grid" id="ponentesGrid" data-group="ponentes"></div>
     <div class="people-grid" id="comiteGrid" data-group="comite" style="display:none;"></div>
-    <p class="no-results" id="noResults">No se han encontrado participantes con ese nombre.</p>
+    <p class="no-results" id="noResults" role="status">No se han encontrado participantes con ese nombre.</p>
   </div>
 </section>
 
@@ -1109,8 +1109,8 @@ function initials(name){
   return (first+last).toUpperCase();
 }
 function colorFor(person, group){
-  if(group === "comite") return "#2AA9BA";
-  return person.institutional ? "#C99424" : "#173B5C";
+  if(group === "comite") return "#1E7884";
+  return person.institutional ? "#8C6719" : "#173B5C";
 }
 
 function avatarFallback(img, name, color){
@@ -1170,8 +1170,8 @@ const ponentesGrid = document.getElementById("ponentesGrid");
 const comiteGrid = document.getElementById("comiteGrid");
 document.querySelectorAll(".people-tab").forEach(btn=>{
   btn.addEventListener("click", ()=>{
-    document.querySelectorAll(".people-tab").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
+    document.querySelectorAll(".people-tab").forEach(b=>{b.classList.remove("active");b.setAttribute("aria-selected","false");});
+    btn.classList.add("active"); btn.setAttribute("aria-selected","true");
     if(btn.dataset.group === "ponentes"){ ponentesGrid.style.display="grid"; comiteGrid.style.display="none"; }
     else { ponentesGrid.style.display="none"; comiteGrid.style.display="grid"; }
     document.getElementById("peopleSearch").value="";
