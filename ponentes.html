@@ -109,8 +109,11 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
 .upload-item-meta{font-size:11.5px;color:var(--ink-soft);margin-top:1px;}
 .upload-item-progress{height:3px;background:var(--line);border-radius:3px;margin-top:6px;overflow:hidden;}
 .upload-item-progress-bar{height:100%;background:var(--cyan-dim);width:0%;transition:width .2s;}
-.upload-item-delete{flex:none;background:none;border:none;color:var(--ink-soft);cursor:pointer;padding:6px;}
+.upload-item-actions{flex:none;display:flex;align-items:center;gap:2px;}
+.upload-item-delete,
+.upload-item-download{flex:none;background:none;border:none;color:var(--ink-soft);cursor:pointer;padding:6px;}
 .upload-item-delete:hover{color:#C0392B;}
+.upload-item-download:hover{color:var(--cyan-dim);}
 
 .submitted-section{margin-top:34px;}
 .submitted-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
@@ -196,7 +199,7 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const SUPABASE_URL = "https://harizyxxgutjqdcqxgbq.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_sOdPvO3HXkPuQ066GPyHog_-cZTTrxn";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhhcml6eXh4Z3V0anFkY3F4Z2JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwNTc1ODAsImV4cCI6MjEwMzYzMzU4MH0.xzxxzu3uMgIoUKciMw5YXtmJU2GeigrYMUVrg4uo318";
 const BUCKET = "ponentes-archivos";
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
 
@@ -481,15 +484,38 @@ async function loadSubmissions(){
         <div class="upload-item-name">${row.file_name}</div>
         <div class="upload-item-meta">${fmtSize(row.file_size || 0)} · ${new Date(row.uploaded_at).toLocaleDateString("es-ES", {day:"2-digit", month:"short", hour:"2-digit", minute:"2-digit"})}</div>
       </div>
-      <button class="upload-item-delete" data-id="${row.id}" data-path="${row.storage_path}" aria-label="Eliminar">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6"/></svg>
-      </button>
+      <div class="upload-item-actions">
+        <button class="upload-item-download" data-path="${row.storage_path}" data-name="${row.file_name}" aria-label="Descargar" title="Descargar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+        </button>
+        <button class="upload-item-delete" data-id="${row.id}" data-path="${row.storage_path}" aria-label="Eliminar" title="Eliminar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6"/></svg>
+        </button>
+      </div>
     </div>
   `).join("");
 
+  submittedList.querySelectorAll(".upload-item-download").forEach(btn => {
+    btn.addEventListener("click", () => downloadFile(btn.dataset.path, btn.dataset.name));
+  });
   submittedList.querySelectorAll(".upload-item-delete").forEach(btn => {
     btn.addEventListener("click", () => deleteSubmission(btn.dataset.id, btn.dataset.path));
   });
+}
+
+async function downloadFile(path, name){
+  const { data, error } = await supabase.storage.from(BUCKET).createSignedUrl(path, 60);
+  if (error || !data) {
+    console.error("Error al generar enlace de descarga:", error);
+    showToast("No se pudo generar el enlace de descarga.");
+    return;
+  }
+  const a = document.createElement("a");
+  a.href = data.signedUrl;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
 }
 
 async function deleteSubmission(id, path){
