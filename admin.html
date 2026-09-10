@@ -204,7 +204,7 @@ tr:hover td{background:var(--paper-alt);}
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const SUPABASE_URL = "https://harizyxxgutjqdcqxgbq.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhhcml6eXh4Z3V0anFkY3F4Z2JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwNTc1ODAsImV4cCI6MjEwMzYzMzU4MH0.krxxzu3uMgIoUKciMw5YXtmJU2GeigrYMUVrg4uo318";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhhcml6eXh4Z3V0anFkY3F4Z2JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwNTc1ODAsImV4cCI6MjEwMzYzMzU4MH0.xzxxzu3uMgIoUKciMw5YXtmJU2GeigrYMUVrg4uo318";
 const BUCKET = "ponentes-archivos";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -229,7 +229,7 @@ let allRows = [];
 function showToast(msg){
   toast.textContent = msg;
   toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 2600);
+  setTimeout(() => toast.classList.remove("show"), 2800);
 }
 
 function fmtSize(bytes){
@@ -251,18 +251,39 @@ function showLogin(){
   codeInput.focus();
 }
 
-// Al cargar: si hay sesión, comprobamos de verdad si es de un administrador
-// (no basta con que exista sesión: podría ser la de un ponente normal).
+// Al cargar: revalidamos siempre si la sesión pertenece a un administrador
 async function init(){
   const { data: { session } } = await supabase.auth.getSession();
-  if (!session) { showLogin(); return; }
-
-  const { data: isAdmin, error } = await supabase.rpc("soy_admin");
-  if (error || !isAdmin) {
-    // Sesión de un ponente sin permisos de administrador: no le dejamos pasar
+  if (!session) {
     showLogin();
     return;
   }
+
+  // Primero intentamos con la función soy_admin (si existe)
+  let isAdmin = false;
+  try {
+    const { data, error } = await supabase.rpc("soy_admin");
+    if (!error && data === true) {
+      isAdmin = true;
+    }
+  } catch (e) {
+    // la función puede no existir o fallar
+  }
+
+  // Fallback: usamos current_user_is_admin o la propia consulta
+  if (!isAdmin) {
+    try {
+      const { data: check } = await supabase.rpc("current_user_is_admin");
+      if (check === true) isAdmin = true;
+    } catch (e) {}
+  }
+
+  if (!isAdmin) {
+    // Sesión de un ponente sin permisos de administrador
+    showLogin();
+    return;
+  }
+
   showAdmin();
 }
 init();
@@ -290,7 +311,11 @@ async function attemptLogin(){
     let { data: { session } } = await supabase.auth.getSession();
     if (!session) {
       const { error: authErr } = await supabase.auth.signInAnonymously();
-      if (authErr) { loginError.textContent = "No se pudo iniciar sesión. Inténtalo de nuevo."; loginError.classList.add("show"); return; }
+      if (authErr) {
+        loginError.textContent = "No se pudo iniciar sesión. Inténtalo de nuevo.";
+        loginError.classList.add("show");
+        return;
+      }
     }
 
     const { data: linkData, error: linkErr } = await supabase.rpc("vincular_sesion", { codigo: code });
@@ -308,6 +333,7 @@ async function attemptLogin(){
 
     showAdmin();
   } catch (e) {
+    console.error(e);
     loginError.textContent = "Ha ocurrido un error. Comprueba tu conexión e inténtalo de nuevo.";
     loginError.classList.add("show");
   } finally {
@@ -326,6 +352,9 @@ logoutBtn.addEventListener("click", async () => {
 
 async function loadAllSubmissions(){
   filesBody.innerHTML = `<tr><td colspan="5" class="empty-note">Cargando…</td></tr>`;
+  emptyNote.style.display = "none";
+
+  // Consulta principal. El join a speakers debería funcionar con la política de admin.
   const { data, error } = await supabase
     .from("submissions")
     .select("id, speaker_id, file_name, storage_path, file_size, uploaded_at, speakers(name)")
@@ -333,13 +362,26 @@ async function loadAllSubmissions(){
 
   if (error) {
     console.error("Error al cargar los archivos:", error);
-    filesBody.innerHTML = "";
-    emptyNote.textContent = "No se pudieron cargar los archivos. Comprueba que tu usuario tiene permisos de administrador.";
-    emptyNote.style.display = "block";
-    return;
+
+    // Si falla el join, intentamos sin él
+    const { data: data2, error: error2 } = await supabase
+      .from("submissions")
+      .select("id, speaker_id, file_name, storage_path, file_size, uploaded_at")
+      .order("uploaded_at", { ascending: false });
+
+    if (error2) {
+      filesBody.innerHTML = "";
+      emptyNote.textContent = `No se pudieron cargar los archivos. Error: ${error2.message || error.message}`;
+      emptyNote.style.display = "block";
+      return;
+    }
+
+    // Enriquecemos los nombres de forma alternativa si hace falta
+    allRows = (data2 || []).map(r => ({ ...r, speakers: null }));
+  } else {
+    allRows = data || [];
   }
 
-  allRows = data || [];
   renderStats();
   renderTable(allRows);
 }
@@ -357,13 +399,14 @@ function renderTable(rows){
   if (rows.length === 0) {
     filesBody.innerHTML = "";
     emptyNote.style.display = "block";
+    emptyNote.textContent = "No hay archivos enviados todavía.";
     return;
   }
   emptyNote.style.display = "none";
 
   filesBody.innerHTML = rows.map(row => `
     <tr data-id="${row.id}">
-      <td><span class="speaker-name">${row.speakers ? row.speakers.name : row.speaker_id}</span></td>
+      <td><span class="speaker-name">${row.speakers ? row.speakers.name : (row.speaker_id || "—")}</span></td>
       <td>
         <div class="file-name-cell">
           <div class="file-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3v5h5M6 3h8l5 5v13H6z"/></svg></div>
@@ -395,7 +438,11 @@ function renderTable(rows){
 
 async function downloadFile(path, name){
   const { data, error } = await supabase.storage.from(BUCKET).createSignedUrl(path, 60);
-  if (error || !data) { showToast("No se pudo generar el enlace de descarga."); return; }
+  if (error || !data) {
+    showToast("No se pudo generar el enlace de descarga.");
+    console.error(error);
+    return;
+  }
   const a = document.createElement("a");
   a.href = data.signedUrl;
   a.download = name;
@@ -406,23 +453,39 @@ async function downloadFile(path, name){
 
 async function deleteFile(id, path){
   if (!confirm("¿Eliminar este archivo? Esta acción no se puede deshacer.")) return;
-  await supabase.storage.from(BUCKET).remove([path]);
-  await supabase.from("submissions").delete().eq("id", id);
-  showToast("Archivo eliminado");
-  loadAllSubmissions();
+
+  const { error: storageErr } = await supabase.storage.from(BUCKET).remove([path]);
+  const { error: dbErr } = await supabase.from("submissions").delete().eq("id", id);
+
+  if (storageErr || dbErr) {
+    console.error("Error al eliminar:", storageErr || dbErr);
+    showToast("No se pudo eliminar el archivo.");
+  } else {
+    showToast("Archivo eliminado");
+  }
+
+  // Forzar recarga
+  setTimeout(() => loadAllSubmissions(), 350);
 }
 
 searchInput.addEventListener("input", () => {
   const q = searchInput.value.trim().toLowerCase();
-  if (!q) { renderTable(allRows); return; }
+  if (!q) {
+    renderTable(allRows);
+    return;
+  }
   const filtered = allRows.filter(r =>
-    (r.speakers && r.speakers.name.toLowerCase().includes(q)) ||
-    r.file_name.toLowerCase().includes(q)
+    (r.speakers && r.speakers.name && r.speakers.name.toLowerCase().includes(q)) ||
+    (r.speaker_id && r.speaker_id.toLowerCase().includes(q)) ||
+    (r.file_name && r.file_name.toLowerCase().includes(q))
   );
   renderTable(filtered);
 });
 
-refreshBtn.addEventListener("click", loadAllSubmissions);
+refreshBtn.addEventListener("click", () => {
+  loadAllSubmissions();
+  showToast("Lista actualizada");
+});
 </script>
 </body>
 </html>

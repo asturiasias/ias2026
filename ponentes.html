@@ -113,7 +113,13 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
 .upload-item-delete:hover{color:#C0392B;}
 
 .submitted-section{margin-top:34px;}
-.submitted-section h3{font-size:14px;margin-bottom:14px;}
+.submitted-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
+.submitted-section h3{font-size:14px;margin:0;}
+.refresh-btn{
+  background:none;border:1px solid var(--line);color:var(--ink-soft);font-size:12.5px;padding:6px 12px;
+  border-radius:100px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;display:inline-flex;align-items:center;gap:5px;
+}
+.refresh-btn:hover{border-color:var(--navy-700);color:var(--navy-900);}
 .empty-note{font-size:13.5px;color:var(--ink-soft);padding:14px 0;}
 
 .toast{
@@ -172,7 +178,13 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
     <div class="upload-list" id="uploadList"></div>
 
     <div class="submitted-section">
-      <h3>Tus archivos enviados</h3>
+      <div class="submitted-header">
+        <h3>Tus archivos enviados</h3>
+        <button class="refresh-btn" id="refreshBtn" type="button" title="Actualizar lista">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 11-2.64-6.36M21 3v6h-6"/></svg>
+          Actualizar
+        </button>
+      </div>
       <div id="submittedList"><p class="empty-note">Aún no has enviado ningún archivo.</p></div>
     </div>
   </section>
@@ -184,7 +196,7 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const SUPABASE_URL = "https://harizyxxgutjqdcqxgbq.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhhcml6eXh4Z3V0anFkY3F4Z2JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwNTc1ODAsImV4cCI6MjEwMzYzMzU4MH0.krxxzu3uMgIoUKciMw5YXtmJU2GeigrYMUVrg4uo318";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhhcml6eXh4Z3V0anFkY3F4Z2JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwNTc1ODAsImV4cCI6MjEwMzYzMzU4MH0.xzxxzu3uMgIoUKciMw5YXtmJU2GeigrYMUVrg4uo318";
 const BUCKET = "ponentes-archivos";
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
 
@@ -202,14 +214,15 @@ const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
 const uploadList = document.getElementById("uploadList");
 const submittedList = document.getElementById("submittedList");
+const refreshBtn = document.getElementById("refreshBtn");
 const toast = document.getElementById("toast");
 
-let currentSpeaker = null; // {speaker_id, name}
+let currentSpeaker = null; // {speaker_id, name, is_admin}
 
 function showToast(msg){
   toast.textContent = msg;
   toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 2600);
+  setTimeout(() => toast.classList.remove("show"), 2800);
 }
 
 function showError(msg){
@@ -235,8 +248,15 @@ function showDashboard(speaker){
 function showCodeScreen(){
   dashboard.style.display = "none";
   codeScreen.style.display = "block";
+  currentSpeaker = null;
   codeInput.value = "";
   codeInput.focus();
+}
+
+function clearCachedSpeaker(){
+  localStorage.removeItem("ponente_nombre");
+  localStorage.removeItem("ponente_id");
+  localStorage.removeItem("ponente_admin");
 }
 
 // ---------- Verificar código y entrar ----------
@@ -250,7 +270,7 @@ async function attemptLogin(code){
   submitCodeBtn.textContent = "Comprobando…";
 
   try {
-    // 1) comprobar que el código existe (sin necesidad de sesión)
+    // 1) comprobar que el código existe
     const { data: checkData, error: checkErr } = await supabase.rpc("verificar_codigo", { codigo: code });
     if (checkErr || !checkData || checkData.length === 0) {
       showError("Ese código no es válido. Revísalo e inténtalo de nuevo.");
@@ -261,18 +281,23 @@ async function attemptLogin(code){
     let { data: { session } } = await supabase.auth.getSession();
     if (!session) {
       const { error: authErr } = await supabase.auth.signInAnonymously();
-      if (authErr) { showError("No se pudo iniciar sesión. Inténtalo de nuevo."); return; }
+      if (authErr) {
+        showError("No se pudo iniciar sesión. Inténtalo de nuevo.");
+        return;
+      }
     }
 
     // 3) vincular la sesión con el ponente dueño del código
     const { data: linkData, error: linkErr } = await supabase.rpc("vincular_sesion", { codigo: code });
     if (linkErr || !linkData || linkData.length === 0) {
+      console.error("Error vincular_sesion:", linkErr);
       showError("No se pudo verificar el código. Inténtalo de nuevo.");
       return;
     }
 
     showDashboard(linkData[0]);
   } catch (e) {
+    console.error(e);
     showError("Ha ocurrido un error. Comprueba tu conexión e inténtalo de nuevo.");
   } finally {
     submitCodeBtn.disabled = false;
@@ -287,22 +312,33 @@ codeInput.addEventListener("input", () => { codeInput.value = codeInput.value.to
 // ---------- Cerrar sesión ----------
 logoutBtn.addEventListener("click", async () => {
   await supabase.auth.signOut();
-  localStorage.removeItem("ponente_nombre");
-  localStorage.removeItem("ponente_id");
-  localStorage.removeItem("ponente_admin");
-  currentSpeaker = null;
+  clearCachedSpeaker();
   showCodeScreen();
 });
 
-// ---------- Recuperar sesión al recargar la página ----------
+// ---------- Recuperar sesión al recargar la página (revalidando siempre) ----------
 async function init(){
   const { data: { session } } = await supabase.auth.getSession();
-  const cachedName = localStorage.getItem("ponente_nombre");
-  const cachedId = localStorage.getItem("ponente_id");
-  const cachedAdmin = localStorage.getItem("ponente_admin") === "1";
-  if (session && cachedName && cachedId) {
-    showDashboard({ speaker_id: cachedId, name: cachedName, is_admin: cachedAdmin });
-  } else {
+  if (!session) {
+    clearCachedSpeaker();
+    showCodeScreen();
+    return;
+  }
+
+  // Revalidamos siempre contra la base de datos (no confiamos solo en localStorage)
+  try {
+    const { data: ponente, error } = await supabase.rpc("obtener_ponente_actual");
+    if (error || !ponente || ponente.length === 0) {
+      // La sesión existe pero no está vinculada a ningún ponente → forzar login
+      console.warn("Sesión sin vinculación válida:", error);
+      clearCachedSpeaker();
+      showCodeScreen();
+      return;
+    }
+    showDashboard(ponente[0]);
+  } catch (e) {
+    console.error("Error al revalidar sesión:", e);
+    clearCachedSpeaker();
     showCodeScreen();
   }
 }
@@ -383,6 +419,7 @@ async function uploadFile(file){
 
   const { error: upErr } = await supabase.storage.from(BUCKET).upload(path, file, { upsert: false });
   if (upErr) {
+    console.error("Error storage:", upErr);
     row.querySelector(".upload-item-meta").textContent = "Error al subir · inténtalo de nuevo";
     bar.style.background = "#C0392B";
     return;
@@ -405,11 +442,17 @@ async function uploadFile(file){
   } else {
     showToast(`"${file.name}" enviado correctamente ✓`);
   }
-  loadSubmissions();
+
+  // Forzar recarga de la lista (con un pequeño retardo para que la BD se actualice)
+  setTimeout(() => loadSubmissions(), 400);
 }
 
 // ---------- Listar archivos ya enviados ----------
 async function loadSubmissions(){
+  if (!currentSpeaker) return;
+
+  submittedList.innerHTML = '<p class="empty-note">Cargando…</p>';
+
   const { data, error } = await supabase
     .from("submissions")
     .select("*")
@@ -418,10 +461,12 @@ async function loadSubmissions(){
 
   if (error) {
     console.error("Error al cargar tus archivos:", error);
-    submittedList.innerHTML = '<p class="empty-note">No se pudieron cargar tus archivos. Recarga la página o inténtalo de nuevo en unos minutos.</p>';
+    submittedList.innerHTML = `<p class="empty-note">No se pudieron cargar tus archivos.<br><small>${error.message || "Error desconocido"}</small><br>Prueba a pulsar «Actualizar» o vuelve a entrar con tu código.</p>`;
     return;
   }
+
   currentSubmissions = data || [];
+
   if (!data || data.length === 0) {
     submittedList.innerHTML = '<p class="empty-note">Aún no has enviado ningún archivo.</p>';
     return;
@@ -448,11 +493,26 @@ async function loadSubmissions(){
 }
 
 async function deleteSubmission(id, path){
-  await supabase.storage.from(BUCKET).remove([path]);
-  await supabase.from("submissions").delete().eq("id", id);
-  showToast("Archivo eliminado");
-  loadSubmissions();
+  if (!confirm("¿Eliminar este archivo?")) return;
+
+  const { error: storageErr } = await supabase.storage.from(BUCKET).remove([path]);
+  const { error: dbErr } = await supabase.from("submissions").delete().eq("id", id);
+
+  if (storageErr || dbErr) {
+    console.error("Error al eliminar:", storageErr || dbErr);
+    showToast("No se pudo eliminar el archivo. Inténtalo de nuevo.");
+  } else {
+    showToast("Archivo eliminado");
+  }
+
+  // Forzar recarga
+  setTimeout(() => loadSubmissions(), 300);
 }
+
+refreshBtn.addEventListener("click", () => {
+  loadSubmissions();
+  showToast("Lista actualizada");
+});
 </script>
 </body>
 </html>
