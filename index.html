@@ -374,6 +374,45 @@ section{padding:84px 0;}
 }
 .question-btn:hover{background:var(--cyan-dim);color:var(--white);}
 
+/* ---------- MATERIALES PÚBLICOS ---------- */
+.materials-btn{
+  display:inline-flex;align-items:center;gap:5px;margin-left:6px;background:none;border:1px solid var(--cyan-dim);
+  color:var(--cyan-dim);font-size:11.5px;font-family:'IBM Plex Mono',monospace;padding:3px 10px;border-radius:100px;
+  cursor:pointer;transition:all .15s;vertical-align:middle;line-height:1.6;
+}
+.materials-btn:hover{background:var(--cyan-dim);color:var(--white);}
+.materials-btn:focus-visible{outline:2px solid var(--cyan-dim);outline-offset:2px;}
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(8,19,33,0.62);display:flex;align-items:center;justify-content:center;
+  padding:20px;z-index:300;
+}
+.modal-overlay[hidden]{display:none;}
+.modal-box{
+  background:var(--white);border-radius:var(--radius);max-width:480px;width:100%;max-height:85vh;overflow-y:auto;
+  padding:30px 26px;position:relative;box-shadow:0 24px 64px rgba(0,0,0,0.35);
+}
+.modal-close{
+  position:absolute;top:14px;right:14px;background:none;border:none;color:var(--ink-soft);cursor:pointer;
+  padding:7px;border-radius:8px;display:inline-flex;
+}
+.modal-close:hover{color:var(--navy-900);background:var(--paper-alt);}
+.modal-close:focus-visible{outline:2px solid var(--cyan-dim);outline-offset:2px;}
+.modal-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;color:var(--navy-900);margin:0 0 6px;padding-right:30px;}
+.modal-desc{font-size:13px;color:var(--ink-soft);margin:0 0 20px;}
+.materials-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.materials-link{
+  display:flex;align-items:center;gap:12px;padding:13px 14px;border:1px solid var(--line);border-radius:10px;
+  text-decoration:none;color:var(--ink);transition:all .15s;
+}
+.materials-link:hover{border-color:var(--cyan-dim);background:var(--paper-alt);}
+.materials-link:focus-visible{outline:2px solid var(--cyan-dim);outline-offset:2px;}
+.materials-item-type{
+  flex:none;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;color:var(--navy-700);
+  background:var(--paper-alt);border-radius:5px;padding:4px 7px;letter-spacing:0.03em;
+}
+.materials-item-title{flex:1;font-size:14px;font-weight:600;color:var(--navy-900);line-height:1.35;}
+.materials-download-icon{flex:none;color:var(--cyan-dim);}
+
 /* ---------- PONENTES ---------- */
 .people-controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:36px;}
 .people-tabs{display:inline-flex;background:var(--paper-alt);border-radius:100px;padding:5px;gap:4px;max-width:100%;}
@@ -767,7 +806,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
               <li><a class="speaker-link" data-speaker="maria-concepcion-saavedra-rielo">María Concepción Saavedra Rielo</a> — Consejera de Salud, Principado de Asturias</li>
               <li><a class="speaker-link" data-speaker="ana-suarez-guerra">Ana Suárez Guerra</a> — Concejala de Mayores y Ciudad Saludable, Ayuntamiento de Avilés</li>
               <li><a class="speaker-link" data-speaker="asuncion-artime-garcia">Asunción Artime García</a> — Gerente Área I-Occidente</li>
-              <li><a class="speaker-link" data-speaker="jose-manuel-fernandez-carreira">José Manuel Fernández Carreira</a> — Presidente Comité Organizador</li>
+              <li><a class="speaker-link" data-speaker="jose-manuel-fernandez-carreira">José Manuel Fernández Carreira</a> — Comité Organizador</li>
             </ul>
           </div>
         </div>
@@ -1101,6 +1140,17 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
   </div>
 </footer>
 
+<div class="modal-overlay" id="materialsModal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="materialsModalTitle" aria-describedby="materialsModalDesc">
+    <button type="button" class="modal-close" id="materialsModalClose" aria-label="Cerrar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <h2 class="modal-title" id="materialsModalTitle"></h2>
+    <p class="modal-desc" id="materialsModalDesc">Documentos compartidos por el ponente para el público asistente.</p>
+    <ul class="materials-list" id="materialsModalList"></ul>
+  </div>
+</div>
+
 <script>
 // ---------- data ----------
 let PEOPLE = {ponentes: [], comite: []};
@@ -1155,8 +1205,89 @@ async function loadPeople(){
   }
   renderGrid("ponentesGrid", PEOPLE.ponentes, "ponentes");
   renderGrid("comiteGrid", PEOPLE.comite, "comite");
+  renderMaterialsButtons();
 }
 loadPeople();
+
+// ---------- materiales públicos: botón + modal accesible ----------
+function materialsMap(){
+  const all = [...(PEOPLE.ponentes || []), ...(PEOPLE.comite || [])];
+  const map = {};
+  all.forEach(p => {
+    if (Array.isArray(p.materiales) && p.materiales.length) map[p.id] = p;
+  });
+  return map;
+}
+
+function fileTypeLabel(archivo){
+  const ext = (archivo.split(".").pop() || "").toLowerCase();
+  const labels = { pdf:"PDF", ppt:"PPT", pptx:"PPT", doc:"DOC", docx:"DOC", txt:"TXT", mp4:"VÍDEO", mov:"VÍDEO" };
+  return labels[ext] || ext.toUpperCase();
+}
+
+function renderMaterialsButtons(){
+  const map = materialsMap();
+  document.querySelectorAll("#programa .speaker-link").forEach(link => {
+    const id = link.dataset.speaker;
+    const person = map[id];
+    const already = link.nextElementSibling && link.nextElementSibling.classList.contains("materials-btn");
+    if (!person) { if (already) link.nextElementSibling.remove(); return; }
+    if (already) return;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "materials-btn";
+    btn.dataset.speaker = id;
+    btn.setAttribute("aria-haspopup", "dialog");
+    btn.setAttribute("aria-label", `Ver materiales compartidos por ${person.name}`);
+    btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M21 11.5V7a4 4 0 00-4-4H9a4 4 0 00-4 4v11a4 4 0 004 4h6"/><path d="M9 8h6M9 12h6M9 16h3"/></svg><span>Materiales</span>`;
+    btn.addEventListener("click", () => openMaterialsModal(person));
+    link.insertAdjacentElement("afterend", btn);
+  });
+}
+
+const materialsModal = document.getElementById("materialsModal");
+const materialsModalTitle = document.getElementById("materialsModalTitle");
+const materialsModalList = document.getElementById("materialsModalList");
+const materialsModalClose = document.getElementById("materialsModalClose");
+let materialsLastFocused = null;
+
+function openMaterialsModal(person){
+  materialsLastFocused = document.activeElement;
+  materialsModalTitle.textContent = `Materiales de ${person.name}`;
+  materialsModalList.innerHTML = person.materiales.map(m => `
+    <li>
+      <a class="materials-link" href="public/${person.id}/${m.archivo}" download>
+        <span class="materials-item-type">${fileTypeLabel(m.archivo)}</span>
+        <span class="materials-item-title">${m.titulo}</span>
+        <svg class="materials-download-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+      </a>
+    </li>
+  `).join("");
+  materialsModal.hidden = false;
+  document.body.style.overflow = "hidden";
+  materialsModalClose.focus();
+  document.addEventListener("keydown", materialsModalKeydown);
+}
+
+function closeMaterialsModal(){
+  materialsModal.hidden = true;
+  document.body.style.overflow = "";
+  document.removeEventListener("keydown", materialsModalKeydown);
+  if (materialsLastFocused) materialsLastFocused.focus();
+}
+
+function materialsModalKeydown(e){
+  if (e.key === "Escape") { closeMaterialsModal(); return; }
+  if (e.key !== "Tab") return;
+  const focusable = materialsModal.querySelectorAll('a[href], button:not([disabled])');
+  if (!focusable.length) return;
+  const first = focusable[0], last = focusable[focusable.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+}
+
+materialsModalClose.addEventListener("click", closeMaterialsModal);
+materialsModal.addEventListener("click", (e) => { if (e.target === materialsModal) closeMaterialsModal(); });
 
 // ---------- day tabs ----------
 document.querySelectorAll(".day-tab").forEach(btn=>{

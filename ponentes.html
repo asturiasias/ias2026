@@ -12,7 +12,7 @@
 <style>
 :root{
   --navy-950:#081321; --navy-900:#0B1D30; --navy-800:#0F2A44; --navy-700:#173B5C;
-  --cyan:#3FDDEE; --cyan-dim:#2AA9BA; --gold:#E8B23C; --gold-dim:#C99424;
+  --cyan:#3FDDEE; --cyan-dim:#1E7884; --gold:#E8B23C; --gold-dim:#8C6719;
   --paper:#F6F8FA; --paper-alt:#EDF1F5; --ink:#0D1B2A; --ink-soft:#3E4C5A;
   --line:#DCE3E9; --white:#FFFFFF; --radius:14px; --maxw:640px;
 }
@@ -101,7 +101,7 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
 
 .upload-list{margin-top:22px;display:flex;flex-direction:column;gap:10px;}
 .upload-item{
-  display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--paper-alt);border-radius:10px;
+  display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;background:var(--paper-alt);border-radius:10px;
 }
 .upload-item-icon{flex:none;width:34px;height:34px;border-radius:8px;background:var(--white);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--cyan-dim);}
 .upload-item-info{flex:1;min-width:0;}
@@ -114,6 +114,20 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
 .upload-item-download{flex:none;background:none;border:none;color:var(--ink-soft);cursor:pointer;padding:6px;}
 .upload-item-delete:hover{color:#C0392B;}
 .upload-item-download:hover{color:var(--cyan-dim);}
+.upload-item-public{
+  flex:0 0 100%;display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:6px;padding-top:10px;
+  border-top:1px solid var(--line);
+}
+.upload-item-public-label{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-soft);cursor:pointer;user-select:none;}
+.upload-item-public-label input[type="checkbox"]{width:15px;height:15px;accent-color:var(--cyan-dim);cursor:pointer;}
+.upload-item-title-input{
+  flex:1;min-width:140px;font-size:12.5px;padding:7px 10px;border:1px solid var(--line);border-radius:7px;
+  background:var(--white);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;
+}
+.upload-item-title-input:focus{outline:none;border-color:var(--cyan-dim);}
+.upload-item-title-input[hidden]{display:none;}
+.upload-item-save-hint{font-size:11px;color:var(--cyan-dim);font-weight:600;opacity:0;transition:opacity .3s;white-space:nowrap;}
+.upload-item-save-hint.show{opacity:1;}
 
 .submitted-section{margin-top:34px;}
 .submitted-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
@@ -188,6 +202,7 @@ h1{font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px;}
           Actualizar
         </button>
       </div>
+      <p class="empty-note" style="text-align:left;margin-bottom:14px;">Marca «Compartir con el público» en los archivos que quieras que los asistentes puedan ver y descargar desde la web (por defecto, todos tus archivos son privados).</p>
       <div id="submittedList"><p class="empty-note">Aún no has enviado ningún archivo.</p></div>
     </div>
   </section>
@@ -458,7 +473,7 @@ async function loadSubmissions(){
 
   const { data, error } = await supabase
     .from("submissions")
-    .select("*")
+    .select("id, file_name, storage_path, file_size, uploaded_at, is_public, public_title")
     .eq("speaker_id", currentSpeaker.speaker_id)
     .order("uploaded_at", { ascending: false });
 
@@ -485,12 +500,21 @@ async function loadSubmissions(){
         <div class="upload-item-meta">${fmtSize(row.file_size || 0)} · ${new Date(row.uploaded_at).toLocaleDateString("es-ES", {day:"2-digit", month:"short", hour:"2-digit", minute:"2-digit"})}</div>
       </div>
       <div class="upload-item-actions">
-        <button class="upload-item-download" data-path="${row.storage_path}" data-name="${row.file_name}" aria-label="Descargar" title="Descargar">
+        <button class="upload-item-download" data-path="${row.storage_path}" data-name="${row.file_name}" aria-label="Descargar ${row.file_name}" title="Descargar">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
         </button>
-        <button class="upload-item-delete" data-id="${row.id}" data-path="${row.storage_path}" aria-label="Eliminar" title="Eliminar">
+        <button class="upload-item-delete" data-id="${row.id}" data-path="${row.storage_path}" aria-label="Eliminar ${row.file_name}" title="Eliminar">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6"/></svg>
         </button>
+      </div>
+      <div class="upload-item-public">
+        <label class="upload-item-public-label">
+          <input type="checkbox" class="upload-item-public-check" data-id="${row.id}" ${row.is_public ? "checked" : ""}>
+          Compartir con el público
+        </label>
+        <input type="text" class="upload-item-title-input" data-id="${row.id}" placeholder="Título para el público (ej. «Presentación: IA en Cardiología»)"
+          value="${(row.public_title || "").replace(/"/g, "&quot;")}" aria-label="Título público de ${row.file_name}" ${row.is_public ? "" : "hidden"}>
+        <span class="upload-item-save-hint" data-hint-for="${row.id}" role="status">Guardado ✓</span>
       </div>
     </div>
   `).join("");
@@ -501,6 +525,66 @@ async function loadSubmissions(){
   submittedList.querySelectorAll(".upload-item-delete").forEach(btn => {
     btn.addEventListener("click", () => deleteSubmission(btn.dataset.id, btn.dataset.path));
   });
+  submittedList.querySelectorAll(".upload-item-public-check").forEach(chk => {
+    chk.addEventListener("change", () => togglePublic(chk));
+  });
+  submittedList.querySelectorAll(".upload-item-title-input").forEach(inp => {
+    inp.addEventListener("change", () => saveTitle(inp));
+  });
+}
+
+// ---------- Marcar/desmarcar un archivo como público ----------
+async function togglePublic(checkbox){
+  const id = checkbox.dataset.id;
+  const isPublic = checkbox.checked;
+  const titleInput = submittedList.querySelector(`.upload-item-title-input[data-id="${id}"]`);
+  const row = currentSubmissions.find(s => s.id === id);
+
+  titleInput.hidden = !isPublic;
+  if (isPublic && !titleInput.value.trim() && row) {
+    titleInput.value = row.file_name.replace(/\.[^.]+$/, "");
+  }
+
+  const { error } = await supabase
+    .from("submissions")
+    .update({ is_public: isPublic, public_title: isPublic ? titleInput.value.trim() : null })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Error al actualizar la visibilidad:", error);
+    showToast("No se pudo actualizar. Inténtalo de nuevo.");
+    checkbox.checked = !isPublic;
+    titleInput.hidden = !checkbox.checked;
+    return;
+  }
+
+  if (row) { row.is_public = isPublic; row.public_title = isPublic ? titleInput.value.trim() : null; }
+  showToast(isPublic ? "Archivo marcado como público" : "Archivo marcado como privado");
+}
+
+// ---------- Guardar el título público al editarlo ----------
+async function saveTitle(input){
+  const id = input.dataset.id;
+  const row = currentSubmissions.find(s => s.id === id);
+  if (!row || !row.is_public) return;
+
+  const { error } = await supabase
+    .from("submissions")
+    .update({ public_title: input.value.trim() })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Error al guardar el título:", error);
+    showToast("No se pudo guardar el título.");
+    return;
+  }
+
+  row.public_title = input.value.trim();
+  const hint = submittedList.querySelector(`.upload-item-save-hint[data-hint-for="${id}"]`);
+  if (hint) {
+    hint.classList.add("show");
+    setTimeout(() => hint.classList.remove("show"), 1600);
+  }
 }
 
 async function downloadFile(path, name){
