@@ -155,12 +155,11 @@
       "id": "luciano-sanchez-ramos",
       "name": "Luciano Sánchez Ramos",
       "role": "Catedrático de Ciencias de la Computación e Inteligencia Artificial · Universidad de Oviedo",
-      "linkedin": "https://www.linkedin.com/in/luciano-sanchez-ramos/"
-	  "materiales": [
-    { "titulo": "Resumen: Modelos de lenguaje pequeños en local: qué se pierde y qué se gana", "archivo": "resumen_modelos_lenguaje_local.pdf" }
-    { "titulo": "Presentación: Modelos de lenguaje pequeños en local: qué se pierde y qué se gana", "archivo": "presentacion_modelos_lenguaje_local.pdf" }
-	
-  ]
+      "linkedin": "https://www.linkedin.com/in/luciano-sanchez-ramos/",
+      "materiales": [
+        { "titulo": "Resumen: Modelos de lenguaje pequeños en local: qué se pierde y qué se gana", "archivo": "resumen_modelos_lenguaje_local.pdf" },
+        { "titulo": "Presentación: Modelos de lenguaje pequeños en local: qué se pierde y qué se gana", "archivo": "presentacion_modelos_lenguaje_local.pdf" }
+      ]
     },
     {
       "id": "maria-jesus-rodriguez-nachon",
