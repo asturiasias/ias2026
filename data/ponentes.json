@@ -27,12 +27,6 @@
       "linkedin": "https://www.linkedin.com/in/atiacortes/"
     },
     {
-      "id": "paco-estella-perez",
-      "name": "Paco Estella Pérez",
-      "role": "Director for Regional Government and Healthcare. Microsoft Healthcare Spain",
-      "linkedin": "https://www.linkedin.com/in/paco-estella-b7b4104b/"
-    },
-    {
       "id": "javier-fernandez-rodriguez",
       "name": "Javier Fernández Rodríguez",
       "role": "Director General de Estrategia Digital e Inteligencia Artificial · Gobierno del Principado de Asturias",
@@ -87,6 +81,12 @@
       "name": "Nahuel Alejandro Costa Cortez",
       "role": "Profesor Ayudante Doctor · Dpto. de Informática, Universidad de Oviedo",
       "linkedin": "https://www.linkedin.com/in/nahuel-costa-cortez/"
+    },
+	{
+      "id": "paco-estella-perez",
+      "name": "Paco Estella Pérez",
+      "role": "Director for Regional Government and Healthcare. Microsoft Healthcare Spain",
+      "linkedin": "https://www.linkedin.com/in/paco-estella-b7b4104b/"
     },
     {
       "id": "pedro-jose-espinosa-prados",
@@ -156,6 +156,11 @@
       "name": "Luciano Sánchez Ramos",
       "role": "Catedrático de Ciencias de la Computación e Inteligencia Artificial · Universidad de Oviedo",
       "linkedin": "https://www.linkedin.com/in/luciano-sanchez-ramos/"
+	  "materiales": [
+    { "titulo": "Resumen: Modelos de lenguaje pequeños en local: qué se pierde y qué se gana", "archivo": "resumen_modelos_lenguaje_local.pdf" }
+    { "titulo": "Presentación: Modelos de lenguaje pequeños en local: qué se pierde y qué se gana", "archivo": "presentacion_modelos_lenguaje_local.pdf" }
+	
+  ]
     },
     {
       "id": "maria-jesus-rodriguez-nachon",
