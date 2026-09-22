@@ -1,12 +1,19 @@
 {
   "ponentes": [
-    {
+ {
       "id": "amadeo-jesus-wals-zurita",
       "name": "Amadeo Jesús Wals Zurita",
       "role": "Oncólogo radioterápico · Hospital Virgen de Macarena, Sevilla",
-      "linkedin": "https://es.linkedin.com/in/amadeozurita"
-    },
-    {
+      "linkedin": "https://es.linkedin.com/in/amadeozurita",
+      "materiales": [
+
+        {
+          "titulo": "Presentación: SEQUOIA: Predicción de supervivencia individual en cáncer de pulmón mediante Radiómica e IA",
+          "archivo": "1789920603030-SEQUOIA_AI_Lung_Cancer_Survival.pdf",
+        }
+      ]
+ },
+	{
       "id": "ana-suarez-guerra",
       "name": "Ana Suárez Guerra",
       "role": "Concejala de Mayores y Ciudad Saludable · Ayuntamiento de Avilés",
