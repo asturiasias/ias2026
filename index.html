@@ -806,7 +806,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{outline:2px solid var
               <li><a class="speaker-link" data-speaker="maria-concepcion-saavedra-rielo">María Concepción Saavedra Rielo</a> — Consejera de Salud, Principado de Asturias</li>
               <li><a class="speaker-link" data-speaker="ana-suarez-guerra">Ana Suárez Guerra</a> — Concejala de Mayores y Ciudad Saludable, Ayuntamiento de Avilés</li>
               <li><a class="speaker-link" data-speaker="asuncion-artime-garcia">Asunción Artime García</a> — Gerente Área I-Occidente</li>
-              <li><a class="speaker-link" data-speaker="jose-manuel-fernandez-carreira">José Manuel Fernández Carreira</a> — Presidente Comité Organizador</li>
+              <li><a class="speaker-link" data-speaker="jose-manuel-fernandez-carreira">José Manuel Fernández Carreira</a> — Comité Organizador</li>
             </ul>
           </div>
         </div>
@@ -1224,6 +1224,19 @@ function fileTypeLabel(archivo){
   const labels = { pdf:"PDF", ppt:"PPT", pptx:"PPT", doc:"DOC", docx:"DOC", txt:"TXT", mp4:"VÍDEO", mov:"VÍDEO" };
   return labels[ext] || ext.toUpperCase();
 }
+
+function hoyLocalISO(){
+  const d = new Date();
+  const offsetMs = d.getTimezoneOffset() * 60000;
+  return new Date(d.getTime() - offsetMs).toISOString().slice(0, 10);
+}
+
+function materialVisibleHoy(m){
+  const hoy = hoyLocalISO();
+  if (m.fecha_inicio && hoy < m.fecha_inicio) return false;
+  if (m.fecha_fin && hoy > m.fecha_fin) return false;
+  return true;
+}
 function renderMaterialsButtons(){
   const map = materialsMap();
   const linksBySpeaker = {};
@@ -1243,6 +1256,7 @@ function renderMaterialsButtons(){
       // Si aparece una sola vez, se muestran los materiales sin "sesion" asignada.
       const session = link.dataset.session || null;
       const materiales = person.materiales.filter(m => {
+        if (!materialVisibleHoy(m)) return false;
         return repite ? (m.sesion && m.sesion === session) : (!m.sesion || m.sesion === session);
       });
 
