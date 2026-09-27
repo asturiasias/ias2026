@@ -1,19 +1,18 @@
 {
   "ponentes": [
- {
+    {
       "id": "amadeo-jesus-wals-zurita",
       "name": "Amadeo Jesús Wals Zurita",
       "role": "Oncólogo radioterápico · Hospital Virgen de Macarena, Sevilla",
       "linkedin": "https://es.linkedin.com/in/amadeozurita",
       "materiales": [
-
         {
           "titulo": "Presentación: SEQUOIA: Predicción de supervivencia individual en cáncer de pulmón mediante Radiómica e IA",
           "archivo": "1789920603030-SEQUOIA_AI_Lung_Cancer_Survival.pdf"
         }
       ]
- },
-	{
+    },
+    {
       "id": "ana-suarez-guerra",
       "name": "Ana Suárez Guerra",
       "role": "Concejala de Mayores y Ciudad Saludable · Ayuntamiento de Avilés",
@@ -49,7 +48,13 @@
       "id": "josep-franch-nadal",
       "name": "Josep Franch Nadal",
       "role": "Médico de AP ABS Raval Sud, ICS · Investigador clínico IDIAP-Jordi Gol y red CIBERDEM",
-      "linkedin": "https://es.linkedin.com/in/josep-franch-nadal-31358686"
+      "linkedin": "https://es.linkedin.com/in/josep-franch-nadal-31358686",
+      "materiales": [
+        {
+          "titulo": "De datos a decisiones: la IA en la práctica clínica",
+          "archivo": "Resumen_De_datos_a_decisiones_clinicas_en_Diabetes_Josep_Franch.pdf"
+        }
+      ]
     },
     {
       "id": "juan-fernando-munoz-montalvo",
@@ -87,7 +92,13 @@
       "id": "nahuel-alejandro-costa-cortez",
       "name": "Nahuel Alejandro Costa Cortez",
       "role": "Profesor Ayudante Doctor · Dpto. de Informática, Universidad de Oviedo",
-      "linkedin": "https://www.linkedin.com/in/nahuel-costa-cortez/"
+      "linkedin": "https://www.linkedin.com/in/nahuel-costa-cortez/",
+      "materiales": [
+        {
+          "titulo": "Modelos fundacionales en cardiología",
+          "archivo": "jornada-ia-salud-2026-nahuel.pdf"
+        }
+      ]
     },
     {
       "id": "paco-estella-perez",
@@ -99,7 +110,13 @@
       "id": "pedro-jose-espinosa-prados",
       "name": "Pedro José Espinosa Prados",
       "role": "Jefe del Proyecto Cuélebre · SESPA",
-      "linkedin": "https://www.linkedin.com/in/pedro-jose-espinosa-prados-18992165/"
+      "linkedin": "https://www.linkedin.com/in/pedro-jose-espinosa-prados-18992165/",
+      "materiales": [
+        {
+          "titulo": "Cuélebre y TrASgu. Del dato clínico a la medicina predictiva",
+          "archivo": "Resumen_-_Cuelebre_y_TrASgu._Del_dato_clinico_a_la_medicina_predictiva.pdf"
+        }
+      ]
     },
     {
       "id": "rafael-comendador-romero",
@@ -118,7 +135,17 @@
       "id": "yolanda-lopez-minguez",
       "name": "Yolanda López Mínguez",
       "role": "Subdirectora de Sistemas de Información e Infraestructuras Tecnológicas · SESPA",
-      "linkedin": "https://www.linkedin.com/in/yolanda-minguez-77960488/"
+      "linkedin": "https://www.linkedin.com/in/yolanda-minguez-77960488/",
+      "materiales": [
+        {
+          "titulo": "la implantación de IA en el SESPA",
+          "archivo": "INFOGRAFIA.pdf"
+        },
+        {
+          "titulo": "Resumen, La implantación de IA",
+          "archivo": "resumen_implantacion_IA_SESPA.pdf"
+        }
+      ]
     }
   ],
   "comite": [
