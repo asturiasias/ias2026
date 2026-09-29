@@ -42,7 +42,13 @@
       "id": "jose-miguel-vegas-valle",
       "name": "José Miguel Vegas Valle",
       "role": "Consultor Cardiología Intervencionista · Hospital Universitario de Cabueñes",
-      "linkedin": "https://es.linkedin.com/in/jose-miguel-vegas-valle-17818937"
+      "linkedin": "https://es.linkedin.com/in/jose-miguel-vegas-valle-17818937",
+      "materiales": [
+        {
+          "titulo": "IA generativa en medicina: Más allá de Chat-GPT",
+          "archivo": "JM Vegas_IAS26.pdf"
+        }
+      ]
     },
     {
       "id": "josep-franch-nadal",
